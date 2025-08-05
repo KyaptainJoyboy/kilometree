@@ -1,0 +1,107 @@
+/*
+ * Kilometree custom styles
+ *
+ * These styles complement Bootstrap and provide a cohesive,
+ * eco‑friendly colour scheme.  Feel free to adjust colours
+ * and spacing to suit your branding.
+ */
+
+:root {
+  --primary: #4caf50;      /* main green hue */
+  --primary-dark: #388e3c; /* darker green for buttons and nav */
+  --secondary: #81c784;    /* light green accent */
+  --light-bg: #f6fff6;     /* very light green for backgrounds */
+  --text-color: #37474f;   /* dark grey for readability */
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: var(--light-bg);
+  color: var(--text-color);
+}
+
+/* Hero section styling */
+.hero {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+  color: #fff;
+  min-height: 50vh;
+  padding: 60px 0;
+}
+.hero .btn-success {
+  background-color: var(--primary-dark);
+  border-color: var(--primary-dark);
+}
+.hero .btn-outline-light {
+  border-color: #fff;
+  color: #fff;
+}
+.hero .btn-outline-light:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+  color: #fff;
+}
+
+/* Navbar tweaks */
+.navbar {
+  background-color: var(--primary-dark);
+}
+.navbar .navbar-brand,
+.navbar .nav-link {
+  color: #fff;
+}
+.navbar .nav-link.active,
+.navbar .nav-link:hover {
+  color: var(--secondary);
+}
+
+/* Card styling */
+.card {
+  border: none;
+  border-radius: 1rem;
+  background-color: #fff;
+}
+.card-img-top.event-img {
+  height: 160px;
+  object-fit: cover;
+}
+
+/* Progress bar */
+#saplingProgressBar {
+  background-color: var(--primary);
+}
+
+/* Buttons */
+.btn-primary {
+  background-color: var(--primary);
+  border-color: var(--primary);
+}
+.btn-primary:hover {
+  background-color: var(--primary-dark);
+  border-color: var(--primary-dark);
+}
+
+/* Footer styling */
+footer {
+  background-color: var(--primary-dark);
+  color: #fff;
+}
+
+/* Utility spacing adjustments for mobile */
+.card-body h2, .card-body h3 {
+  font-size: 1.4rem;
+}
+.card-body p {
+  font-size: 0.95rem;
+}
+
+@media (min-width: 768px) {
+  .hero {
+    min-height: 70vh;
+    padding: 100px 0;
+  }
+  .card-body h2, .card-body h3 {
+    font-size: 1.6rem;
+  }
+  .card-body p {
+    font-size: 1rem;
+  }
+}

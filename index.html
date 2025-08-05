@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kilometree – Sustainability Through Movement</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384‑JprkAea1E8+GYBQOXNQfsV82u9ArGQVqh/hivHDnFcp/9yZRkGLtfv0Ro0M0hoOJ" crossorigin="anonymous">
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+  <!-- Navigation Bar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
+    <div class="container-fluid">
+      <a class="navbar-brand fw-bold" href="#">Kilometree</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#progress">Progress</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#events">Events</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#awareness">Awareness</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero d-flex align-items-center justify-content-center text-center">
+    <div class="container">
+      <h1 class="display-5 fw-bold mb-3">Every Step Plants a Tree</h1>
+      <p class="lead mb-4">Transform your daily movement into tangible environmental impact. Track your steps, see your progress and watch our world become greener.</p>
+      <div class="d-flex justify-content-center">
+        <a href="#tracker" class="btn btn-success me-2">Start Tracking</a>
+        <a href="#learn" class="btn btn-outline-light">Learn More</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Step Tracker Section -->
+  <section id="tracker" class="py-5">
+    <div class="container">
+      <div class="row g-4">
+        <div class="col-12 col-md-6">
+          <div class="card shadow-sm h-100">
+            <div class="card-body text-center">
+              <h2 class="card-title mb-3">Live Step Counter</h2>
+              <p class="text-muted mb-4">Your movements are the seeds of future forests.</p>
+              <div class="display-1 fw-bold text-success" id="stepCount">0</div>
+              <p>steps walked</p>
+              <div class="h4" id="kmCount">0.00 km</div>
+              <p>distance traveled</p>
+              <div class="h4 text-primary" id="saplingCount">0 saplings</div>
+              <p>tree saplings earned</p>
+              <button id="resetButton" class="btn btn-outline-secondary mt-3">Reset Counter</button>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-md-6 d-flex">
+          <div class="card shadow-sm flex-fill">
+            <div class="card-body">
+              <h2 class="card-title mb-3">Sapling Progress</h2>
+              <p class="text-muted">See how close you are to your next planting milestone.</p>
+              <div class="progress mb-2" style="height: 1.5rem;">
+                <div id="saplingProgressBar" class="progress-bar" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="1"></div>
+              </div>
+              <small id="milestoneLabel">0 / 10 saplings</small>
+              <hr>
+              <div class="row text-center">
+                <div class="col">
+                  <div class="fw-bold" id="totalSteps">0</div>
+                  <small>Total Steps</small>
+                </div>
+                <div class="col">
+                  <div class="fw-bold" id="totalKilometers">0.00</div>
+                  <small>Total km</small>
+                </div>
+                <div class="col">
+                  <div class="fw-bold" id="totalSaplings">0</div>
+                  <small>Total Saplings</small>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Progress Dashboard Section -->
+  <section id="progress" class="bg-light py-5">
+    <div class="container">
+      <h2 class="text-center mb-4">Your Environmental Impact</h2>
+      <div class="row g-4">
+        <div class="col-12 col-lg-4">
+          <div class="card text-center h-100 shadow-sm">
+            <div class="card-body">
+              <h3 class="card-title">Saplings Planted</h3>
+              <p class="display-4 fw-bold text-success" id="saplingsPlanted">0</p>
+              <p class="text-muted">Cumulative number of saplings donated so far.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-lg-4">
+          <div class="card text-center h-100 shadow-sm">
+            <div class="card-body">
+              <h3 class="card-title">Distance Covered</h3>
+              <p class="display-4 fw-bold text-primary" id="distanceCovered">0.00 km</p>
+              <p class="text-muted">Total kilometres logged by your steps.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-lg-4">
+          <div class="card text-center h-100 shadow-sm">
+            <div class="card-body">
+              <h3 class="card-title">Fitness Streak</h3>
+              <p class="display-4 fw-bold text-warning" id="daysStreak">0</p>
+              <p class="text-muted">Consecutive days of activity recorded.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Upcoming Events Section -->
+  <section id="events" class="py-5">
+    <div class="container">
+      <h2 class="text-center mb-4">Upcoming Planting Events</h2>
+      <p class="text-center text-muted mb-5">Keep track of your next sapling planting dates and community challenges.</p>
+      <div class="row g-4">
+        <div class="col-12 col-md-6 col-lg-4">
+          <div class="card h-100 shadow-sm">
+            <img src="" class="card-img-top event-img" alt="Event 1 placeholder">
+            <div class="card-body">
+              <h5 class="card-title">Community Tree Planting</h5>
+              <p class="card-text">Join fellow students and teachers for a fun day of planting saplings together.</p>
+              <p class="card-text"><small class="text-muted">Date: September 20, 2025</small></p>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-md-6 col-lg-4">
+          <div class="card h-100 shadow-sm">
+            <img src="" class="card-img-top event-img" alt="Event 2 placeholder">
+            <div class="card-body">
+              <h5 class="card-title">Milestone Celebration</h5>
+              <p class="card-text">Celebrate reaching 100 saplings with a virtual badge ceremony and recognition.</p>
+              <p class="card-text"><small class="text-muted">Date: October 5, 2025</small></p>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-md-6 col-lg-4">
+          <div class="card h-100 shadow-sm">
+            <img src="" class="card-img-top event-img" alt="Event 3 placeholder">
+            <div class="card-body">
+              <h5 class="card-title">End‑of‑Semester Forest Vlog</h5>
+              <p class="card-text">Witness the transformation of your saplings into a thriving forest through a class vlog.</p>
+              <p class="card-text"><small class="text-muted">Date: December 15, 2025</small></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Awareness Content Section -->
+  <section id="awareness" class="bg-light py-5">
+    <div class="container">
+      <h2 class="text-center mb-4">Awareness & Challenges</h2>
+      <p class="text-center text-muted mb-5">Watch and share our campaign content to inspire others to join the movement.</p>
+      <div class="row g-4">
+        <div class="col-12 col-md-6">
+          <div class="card h-100 shadow-sm">
+            <img src="" class="card-img-top" alt="Challenge placeholder">
+            <div class="card-body">
+              <h5 class="card-title">Eco Challenge of the Week</h5>
+              <p class="card-text">Record yourself completing the weekly eco challenge and share it with your classmates.</p>
+              <button class="btn btn-primary">View Challenge</button>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-md-6">
+          <div class="card h-100 shadow-sm">
+            <!-- YouTube placeholder; embed or screenshot here -->
+            <div class="ratio ratio-16x9">
+              <!-- Example YouTube embed of environmental awareness video (can be replaced) -->
+              <iframe src="https://www.youtube.com/embed/0z0dXkN9cvA" title="Environmental Awareness" allowfullscreen></iframe>
+            </div>
+            <div class="card-body">
+              <h5 class="card-title">Planting Day Vlog</h5>
+              <p class="card-text">A short recap of our recent planting day to showcase the impact we’re making.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-primary text-white text-center py-3 mt-5">
+    <div class="container">
+      <p class="mb-0">&copy; <span id="year"></span> Kilometree. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <!-- Bootstrap JS Bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384‑rETc6DN6vIC0SPk54m5/y3GkD1MwMyN5kBFvLN4kBnWYfU1kRc+kCV8eNKM43I2V" crossorigin="anonymous"></script>
+  <!-- Custom JS -->
+  <script src="assets/js/app.js"></script>
+  <script>
+    // Update year in footer
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
