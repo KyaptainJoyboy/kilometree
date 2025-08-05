@@ -7,11 +7,12 @@
  */
 
 :root {
-  --primary: #4caf50;      /* main green hue */
-  --primary-dark: #388e3c; /* darker green for buttons and nav */
-  --secondary: #81c784;    /* light green accent */
-  --light-bg: #f6fff6;     /* very light green for backgrounds */
-  --text-color: #37474f;   /* dark grey for readability */
+  --primary: #5da760;      /* main green hue, slightly softer */
+  --primary-dark: #3f7b44; /* darker green for buttons and nav */
+  --secondary: #cde8c9;    /* light green accent, pastel */
+  --light-bg: #f7faef;     /* very light green for backgrounds */
+  --card-bg: #ffffff;      /* card base colour */
+  --text-color: #2f3e35;   /* dark grey for readability */
 }
 
 body {
@@ -58,11 +59,61 @@ body {
 .card {
   border: none;
   border-radius: 1rem;
-  background-color: #fff;
+  background-color: var(--card-bg);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 .card-img-top.event-img {
   height: 160px;
   object-fit: cover;
+}
+
+/* Icon circles for feature icons */
+.icon-circle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.6rem;
+  border-radius: 50%;
+  background-color: var(--primary-dark);
+  color: #ffffff;
+  font-size: 1.2rem;
+  margin: 0 auto 0.5rem auto;
+}
+
+/* Icons using .icon-circle will inherit dark colour automatically */
+
+/* Tinted section backgrounds */
+section.bg-light {
+  background-color: #fbfdf6 !important;
+}
+
+/* Progress bars adjustments */
+.progress {
+  background-color: #e8f5e9;
+  border-radius: 1rem;
+  overflow: hidden;
+}
+.progress-bar {
+  border-radius: 1rem;
+}
+#co2ProgressBar.bg-info {
+  background-color: #80cbc4;
+}
+#challengeProgressBar.bg-warning {
+  background-color: #ffd54f;
+}
+#saplingProgressBar {
+  background: linear-gradient(90deg, var(--primary) 0%, #81c784 100%);
+}
+
+/* Donation select and button styling */
+#donationAmount, #donateButton {
+  border-radius: 0.5rem;
+  height: 2.5rem;
+  font-size: 1rem;
+}
+#donateButton {
+  padding: 0 1.5rem;
 }
 
 /* Progress bar */
