@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Leaderboard - Kilometree</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384‑JprkAea1E8+GYBQOXNQfsV82u9ArGQVqh/hivHDnFcp/9yZRkGLtfv0Ro0M0hoOJ" crossorigin="anonymous">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-UGjIiFriiTi6YQcmDZNnCrwDPbQQihsMwuvIA57IkP0UyHC9Pw2/Xj31t/gpPtdrdhg+Xp4PY9a5acnJ9WByCQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+  <!-- Navigation Bar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
+    <div class="container-fluid">
+      <a class="navbar-brand fw-bold" href="index.html">Kilometree</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="index.html">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="achievements.html">Achievements</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="co2.html">CO2</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="leaderboard.html">Leaderboard</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Leaderboard Section -->
+  <section id="leaderboard" class="bg-light py-5">
+    <div class="container">
+      <h2 class="text-center mb-4">Leaderboard</h2>
+      <p class="text-center text-muted mb-4">See how you stack up against others in your class.</p>
+      <div class="table-responsive animate-fadeUp">
+        <table class="table table-striped table-bordered">
+          <thead class="table-success">
+            <tr>
+              <th scope="col">Rank</th>
+              <th scope="col">Name</th>
+              <th scope="col">Saplings</th>
+            </tr>
+          </thead>
+          <tbody id="leaderboardBody">
+            <!-- Leaderboard rows populated via JavaScript -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-primary text-white text-center py-3 mt-5">
+    <div class="container">
+      <p class="mb-0">&copy; <span id="year"></span> Kilometree. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <!-- Bootstrap JS Bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384‑rETc6DN6vIC0SPk54m5/y3GkD1MwMyN5kBFvLN4kBnWYfU1kRc+kCV8eNKM43I2V" crossorigin="anonymous"></script>
+  <!-- Chart.js for analytics -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <!-- Custom JS -->
+  <script src="assets/js/app.js"></script>
+  <script>
+    // Update year in footer
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>

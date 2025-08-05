@@ -23,6 +23,8 @@
   const saplingsPlantedEl = document.getElementById('saplingsPlanted');
   const distanceCoveredEl = document.getElementById('distanceCovered');
   const daysStreakEl      = document.getElementById('daysStreak');
+  const startBtnEl        = document.getElementById('startButton');
+  const stopBtnEl         = document.getElementById('stopButton');
   const resetBtnEl        = document.getElementById('resetButton');
 
   // Achievement badge elements
@@ -150,7 +152,7 @@
 
   // Simulate steps being taken
   function simulateStep() {
-    const stepIncrement = Math.floor(Math.random() * 3) + 1; // between 1 and 3 steps
+    const stepIncrement = Math.floor(Math.random() * 5) + 1; // between 1 and 5 steps
     liveSteps += stepIncrement;
     liveKilometres = liveSteps * STEP_LENGTH_KM;
     liveSaplings   = Math.floor(liveKilometres); // 1 sapling per full kilometre
@@ -205,9 +207,9 @@
   }
 
   // Attach event listeners
-  resetBtnEl.addEventListener('click', () => {
-    resetCounters();
-  });
+  startBtnEl.addEventListener('click', startSimulation);
+  stopBtnEl.addEventListener('click', stopSimulation);
+  resetBtnEl.addEventListener('click', resetCounters);
 
   // Donation button listener
   const donateBtn = document.getElementById('donateButton');
@@ -323,6 +325,5 @@
   // Initialize when page resources have finished loading
   window.addEventListener('load', () => {
     updateUI();
-    startSimulation();
   });
 })();

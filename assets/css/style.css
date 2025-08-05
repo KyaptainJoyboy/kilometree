@@ -20,6 +20,7 @@ body {
   font-family: 'Roboto', Tahoma, Geneva, Verdana, sans-serif;
   background-color: var(--light-bg);
   color: var(--text-color);
+  padding-top: 70px; /* Add padding to body to avoid content being hidden by fixed navbar */
 }
 
 /* Hero section styling */
@@ -45,6 +46,7 @@ body {
 /* Navbar tweaks */
 .navbar {
   background-color: var(--primary-dark);
+  transition: all 0.3s ease-in-out;
 }
 .navbar .navbar-brand,
 .navbar .nav-link {
@@ -204,5 +206,25 @@ footer {
   }
   .card-body p {
     font-size: 1rem;
+  }
+}
+
+/* Mobile-first adjustments */
+@media (max-width: 767px) {
+  .hero {
+    min-height: 40vh;
+    padding: 40px 0;
+  }
+  .display-5 {
+    font-size: 2.5rem;
+  }
+  .lead {
+    font-size: 1rem;
+  }
+  .card {
+    margin-bottom: 1.5rem;
+  }
+  .navbar-nav {
+    text-align: center;
   }
 }
