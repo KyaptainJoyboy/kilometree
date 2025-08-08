@@ -4,6 +4,10 @@
 // This module encapsulates all core functionalities of the Kilometree app,
 // including step tracking, data persistence, UI updates, and feature integrations.
 
+import { Chart, registerables } from 'chart.js';
+Chart.register(...registerables);
+import { GoogleIntegration } from './google.js';
+
 class KilometreeApp {
   constructor() {
     // Initialize application state variables. These are persisted in localStorage.
@@ -20,6 +24,7 @@ class KilometreeApp {
     // Internal state for simulation and chart instances
     this.stepInterval = null;
     this.chart = null;
+    this.google = null;
 
     // Event data - simulated for now. In a real application, this would come from an API.
     this.events = [
@@ -108,6 +113,7 @@ class KilometreeApp {
     this.checkWeeklyReset();
     this.updateAchievements();
     this.generateEvents();
+    this.setupGoogle();
 
     // Restore last active section from localStorage to maintain user's last view.
     const lastActiveSection = localStorage.getItem('lastActiveSection');
@@ -154,6 +160,140 @@ class KilometreeApp {
 
     // Donation button interaction
     document.getElementById('donateButton').addEventListener('click', () => this.handleDonation());
+  }
+
+  /**
+   * Initializes Google integrations and wires UI controls.
+   */
+  setupGoogle() {
+    try {
+      this.google = new GoogleIntegration({
+        onAuthChange: (isSignedIn) => {
+          const signInBtn = document.getElementById('googleSignInBtn');
+          const signOutBtn = document.getElementById('googleSignOutBtn');
+          if (signInBtn && signOutBtn) {
+            signInBtn.disabled = isSignedIn;
+            signOutBtn.disabled = !isSignedIn;
+          }
+        }
+      });
+      this.google.initialize();
+    } catch (e) {
+      console.error('Failed to initialize Google integrations', e);
+    }
+
+    const openSettingsBtn = document.getElementById('openSettingsBtn');
+    const closeSettingsBtn = document.getElementById('closeSettingsModal');
+    const saveSettingsBtn = document.getElementById('saveSettingsBtn');
+    const settingsModal = document.getElementById('googleSettingsModal');
+
+    if (openSettingsBtn && settingsModal) {
+      openSettingsBtn.addEventListener('click', () => settingsModal.classList.add('active'));
+    }
+    if (closeSettingsBtn && settingsModal) {
+      closeSettingsBtn.addEventListener('click', () => settingsModal.classList.remove('active'));
+    }
+    if (saveSettingsBtn) {
+      saveSettingsBtn.addEventListener('click', () => {
+        const config = this.readSettingsForm();
+        this.google?.saveConfig(config);
+        settingsModal?.classList.remove('active');
+        this.showNotification('Settings saved', 'success');
+      });
+    }
+
+    const signInBtn = document.getElementById('googleSignInBtn');
+    const signOutBtn = document.getElementById('googleSignOutBtn');
+    const sheetsSyncBtn = document.getElementById('sheetsSyncBtn');
+    const calendarEventBtn = document.getElementById('calendarEventBtn');
+    const formSubmitBtn = document.getElementById('formSubmitBtn');
+    const lookerBtn = document.getElementById('lookerBtn');
+    const youtubeUploadBtn = document.getElementById('youtubeUploadBtn');
+    const youtubeFileInput = document.getElementById('youtubeFileInput');
+
+    signInBtn?.addEventListener('click', () => this.google?.signIn());
+    signOutBtn?.addEventListener('click', () => this.google?.signOut());
+    sheetsSyncBtn?.addEventListener('click', async () => {
+      try {
+        await this.google?.appendToSheet({
+          date: new Date().toISOString().split('T')[0],
+          totalSteps: this.totalSteps,
+          totalSaplings: this.totalSaplings,
+          co2Kg: this.totalSaplings * this.CO2_PER_SAPLING,
+          weeklyKm: this.weeklyDistance
+        });
+        this.showNotification('Synced progress to Google Sheets', 'success');
+      } catch (e) {
+        console.error(e);
+        this.showNotification('Sheets sync failed. Check settings/permissions.', 'error');
+      }
+    });
+    calendarEventBtn?.addEventListener('click', async () => {
+      try {
+        const nextPlantingDate = this.google?.getNextSaturday();
+        await this.google?.createCalendarEvent({
+          title: 'Kilometree Planting Day',
+          description: `Celebrating ${this.totalSaplings} saplings planted!`,
+          start: nextPlantingDate,
+          durationHours: 2
+        });
+        this.showNotification('Calendar event created', 'success');
+      } catch (e) {
+        console.error(e);
+        this.showNotification('Calendar event failed. Check settings/permissions.', 'error');
+      }
+    });
+    formSubmitBtn?.addEventListener('click', async () => {
+      try {
+        await this.google?.submitFormResponse({
+          user: 'You',
+          totalSaplings: this.totalSaplings,
+          weeklyKm: this.weeklyDistance
+        });
+        this.showNotification('Form submitted', 'success');
+      } catch (e) {
+        console.error(e);
+        this.showNotification('Form submission failed. Check settings/permissions.', 'error');
+      }
+    });
+    lookerBtn?.addEventListener('click', () => this.google?.openLookerDashboard());
+    youtubeUploadBtn?.addEventListener('click', async () => {
+      try {
+        const file = youtubeFileInput?.files?.[0];
+        if (!file) {
+          this.showNotification('Choose a video file first', 'warning');
+          return;
+        }
+        await this.google?.uploadYouTubeVideo({
+          file,
+          title: 'Kilometree Campaign Video',
+          description: `Auto-uploaded summary. Total saplings: ${this.totalSaplings}.`
+        });
+        this.showNotification('YouTube upload started', 'success');
+      } catch (e) {
+        console.error(e);
+        this.showNotification('YouTube upload failed. Check settings/permissions.', 'error');
+      }
+    });
+  }
+
+  /**
+   * Reads settings modal inputs into a config object
+   */
+  readSettingsForm() {
+    const get = (id) => document.getElementById(id)?.value ?? '';
+    const cfg = {
+      clientId: get('googleClientId'),
+      apiKey: get('googleApiKey'),
+      calendarId: get('googleCalendarId'),
+      sheetId: get('googleSheetId'),
+      formId: get('googleFormId'),
+      formPrefillUrl: get('googleFormPrefillUrl'),
+      lookerUrl: get('googleLookerUrl'),
+      appsScriptWebAppUrl: get('appsScriptWebAppUrl'),
+      autoSync: !!document.getElementById('autoSyncToggle')?.checked
+    };
+    return cfg;
   }
   
   /**
@@ -284,6 +424,18 @@ class KilometreeApp {
     // Reset tracker status and disable save button
     this.updateTrackerStatus('Ready to track', 'ready');
     document.getElementById('saveBtn').disabled = true;
+
+    // Auto sync with Google services if enabled
+    try {
+      this.google?.autoSyncOnSave?.({
+        totalSteps: this.totalSteps,
+        totalSaplings: this.totalSaplings,
+        co2Kg: this.totalSaplings * this.CO2_PER_SAPLING,
+        weeklyKm: this.weeklyDistance
+      });
+    } catch (e) {
+      console.warn('Auto sync skipped', e);
+    }
   }
   
   /**

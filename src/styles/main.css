@@ -6,28 +6,28 @@
 }
 
 :root {
-  /* Color Palette - Defined using modern, eco-friendly shades. */
-  --primary: #22c55e; /* Vibrant Green - Main accent */
-  --primary-dark: #16a34a; /* Darker Green - For hover states and deeper elements */
-  --primary-light: #86efac; /* Lighter Green - For subtle backgrounds */
-  --secondary: #f0fdf4; /* Very Light Green/Off-white - Subtle backgrounds, card elements */
-  --accent: #fbbf24; /* Golden Yellow - For highlights, challenges, warnings */
-  --success: #10b981; /* Teal Green - Success messages */
-  --warning: #f59e0b; /* Orange - Warning messages */
-  --error: #ef4444; /* Red - Error messages */
+  /* Color Palette - Updated for a clean, light, and modern Android app feel */
+  --primary: #4CAF50; /* A fresh, appealing green */
+  --primary-dark: #388E3C; /* A deeper green for accents and active states */
+  --primary-light: #C8E6C9; /* Very light green for subtle backgrounds */
+  --secondary: #E8F5E9; /* Even lighter green, almost white, for cards and secondary elements */
+  --accent: #FFC107; /* A warm yellow for highlights, warnings, and challenges */
+  --success: #4CAF50; /* Consistent success green */
+  --warning: #FF9800; /* Orange for warnings */
+  --error: #F44336; /* Red for errors */
   
-  /* Neutral Palette - For text, backgrounds, and borders. */
+  /* Neutral Palette - Clean grays for text and backgrounds, emphasizing white */
   --white: #ffffff;
-  --gray-50: #f9fafb; /* Lightest gray - almost white */
-  --gray-100: #f3f4f6;
-  --gray-200: #e5e7eb;
-  --gray-300: #d1d5db; /* Light gray - borders */
-  --gray-400: #9ca3af;
-  --gray-500: #6b7280; /* Medium gray - secondary text */
-  --gray-600: #4b5563; /* Darker gray - primary text */
-  --gray-700: #374151;
-  --gray-800: #1f2937; /* Very dark gray - headings */
-  --gray-900: #111827; /* Near black */
+  --gray-50: #FBFBFB; /* Almost pure white for backgrounds */
+  --gray-100: #F5F5F5; /* Very light gray for subtle separation */
+  --gray-200: #EEEEEE; /* Light gray for borders and subtle elements */
+  --gray-300: #E0E0E0;
+  --gray-400: #BDBDBD;
+  --gray-500: #9E9E9E; /* Medium gray for secondary text */
+  --gray-600: #757575; /* Darker gray for primary text */
+  --gray-700: #616161;
+  --gray-800: #424242; /* Very dark gray for headings */
+  --gray-900: #212121; /* Near black for strong contrast */
   
   /* Typography Scale - Based on Inter font for a modern and clean look. */
   --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -82,6 +82,12 @@ body {
   background-color: var(--gray-50);
   -webkit-font-smoothing: antialiased; /* For smoother font rendering on WebKit browsers */
   -moz-osx-font-smoothing: grayscale; /* For smoother font rendering on Firefox */
+  overscroll-behavior-y: none; /* reduce glow on mobile pull */
+}
+
+/* App Container */
+#app {
+  background-color: var(--gray-50); /* Overall app background */
 }
 
 /* Navigation Bar - Fixed at the top, with a translucent background for modern feel. */
@@ -119,6 +125,7 @@ body {
 
 .brand-icon {
   font-size: var(--font-size-2xl);
+  color: var(--primary); /* Use primary color for the icon */
 }
 
 .nav-menu {
@@ -135,9 +142,13 @@ body {
   padding: var(--space-6);
   box-shadow: var(--shadow-lg);
   transform: translateY(-100%); /* Hidden initially */
-  transition: var(--transition); /* Smooth slide animation */
+  transition: transform 0.3s ease-out; /* Smooth slide animation for Android feel */
   gap: var(--space-4); /* Spacing between nav links in mobile menu */
   z-index: 999; /* Below modal, above other content */
+  border-bottom-left-radius: var(--radius-lg); /* Rounded corners for mobile menu */
+  border-bottom-right-radius: var(--radius-lg);
+  max-height: 80vh; /* Prevent menu from taking full screen height */
+  overflow-y: auto; /* Scroll if menu content is too long */
 }
 
 .nav-menu.active {
@@ -148,7 +159,7 @@ body {
   color: var(--gray-600);
   text-decoration: none;
   font-weight: 500;
-  padding: var(--space-2) var(--space-4);
+  padding: var(--space-3) var(--space-4); /* Slightly more padding for touch targets */
   border-radius: var(--radius);
   transition: var(--transition);
   position: relative;
@@ -158,7 +169,7 @@ body {
 .nav-link:hover,
 .nav-link.active {
   color: var(--primary-dark);
-  background-color: var(--secondary);
+  background-color: var(--primary-light); /* Lighter background for active/hover */
 }
 
 .nav-toggle {
@@ -170,6 +181,12 @@ body {
   cursor: pointer;
   padding: var(--space-2);
   z-index: 1001; /* Ensure toggle is clickable above menu */
+  border-radius: var(--radius-full); /* Make toggle more touch-friendly */
+  transition: var(--transition);
+}
+
+.nav-toggle:active {
+  background-color: var(--gray-200); /* Visual feedback on press */
 }
 
 .nav-toggle span {
@@ -179,10 +196,26 @@ body {
   transition: var(--transition);
 }
 
+/* Desktop navigation behavior */
+@media (min-width: 768px) {
+  .nav-menu {
+    position: static;
+    transform: none;
+    background: transparent;
+    flex-direction: row;
+    padding: 0;
+    box-shadow: none;
+    gap: var(--space-6);
+  }
+  .nav-link { text-align: left; }
+  .nav-toggle { display: none; }
+}
+
 /* Main Content Area */
 .main-content {
   margin-top: 4rem; /* Offset for fixed navbar */
   min-height: calc(100vh - 4rem); /* Ensure content fills remaining viewport */
+  padding-bottom: env(safe-area-inset-bottom); /* iOS notch */
 }
 
 .section {
@@ -253,18 +286,23 @@ body {
   background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
   color: var(--white);
   border: none;
-  padding: var(--space-3) var(--space-6); /* Adjusted for mobile */
+  padding: var(--space-4) var(--space-8); /* Increased padding for better touch area */
   border-radius: var(--radius-lg);
   font-size: var(--font-size-base); /* Adjusted for mobile */
   font-weight: 600;
   cursor: pointer;
   transition: var(--transition);
-  box-shadow: var(--shadow-lg);
+  box-shadow: var(--shadow-md); /* Softer shadow for app-like feel */
 }
 
 .cta-button:hover {
   transform: translateY(-2px);
-  box-shadow: var(--shadow-xl);
+  box-shadow: var(--shadow-lg); /* More pronounced shadow on hover */
+}
+
+.cta-button:active {
+  transform: translateY(0); /* Press feedback */
+  box-shadow: var(--shadow-sm);
 }
 
 .hero-visual {
@@ -274,6 +312,13 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.hero-visual img {
+  max-width: 100%;
+  height: auto;
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-md); /* Consistent shadow with cards */
 }
 
 .floating-trees {
@@ -311,7 +356,7 @@ body {
   background: var(--white);
   border-radius: var(--radius-lg); /* Adjusted for mobile */
   padding: var(--space-6); /* Adjusted for mobile */
-  box-shadow: var(--shadow);
+  box-shadow: var(--shadow-sm); /* Lighter shadow for cards */
   display: flex;
   flex-direction: column; /* Stack content vertically */
   align-items: center; /* Center content */
@@ -325,6 +370,11 @@ body {
   box-shadow: var(--shadow-md); /* Adjusted for mobile */
 }
 
+.stat-card:active {
+  transform: translateY(0); /* Press feedback */
+  box-shadow: var(--shadow-sm);
+}
+
 .stat-icon {
   font-size: var(--font-size-2xl); /* Adjusted for mobile */
   width: 50px; /* Adjusted for mobile */
@@ -332,7 +382,8 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--secondary);
+  background: var(--primary-light); /* Use lighter primary for icons */
+  color: var(--primary-dark); /* Darker primary for icon color */
   border-radius: var(--radius-md); /* Adjusted for mobile */
 }
 
@@ -345,7 +396,7 @@ body {
 
 .stat-label {
   font-size: var(--font-size-sm);
-  color: var(--gray-500);
+  color: var(--gray-600);
   font-weight: 500;
 }
 
@@ -362,7 +413,7 @@ body {
   background: var(--white);
   border-radius: var(--radius-lg); /* Adjusted for mobile */
   padding: var(--space-6); /* Adjusted for mobile */
-  box-shadow: var(--shadow);
+  box-shadow: var(--shadow-sm); /* Lighter shadow for consistency */
 }
 
 .tracker-header {
@@ -409,7 +460,7 @@ body {
 }
 
 .steps-count {
-  font-size: 3rem; /* Adjusted for mobile */
+  font-size: 3.5rem; /* Slightly larger for impact */
   font-weight: 700;
   color: var(--primary-dark);
   line-height: 1;
@@ -440,7 +491,7 @@ body {
 
 .metric-label {
   font-size: var(--font-size-xs); /* Adjusted for mobile */
-  color: var(--gray-500);
+  color: var(--gray-600); /* Slightly darker for better readability */
 }
 
 .tracker-controls {
@@ -463,6 +514,12 @@ body {
   font-size: var(--font-size-sm);
   flex: 1; /* Make buttons take equal width */
   justify-content: center; /* Center content in buttons */
+  box-shadow: var(--shadow-sm); /* Softer shadow for control buttons */
+}
+
+.control-btn:active {
+  transform: translateY(0); /* Press feedback */
+  box-shadow: var(--shadow-xs); /* Even lighter shadow on press */
 }
 
 .control-btn.primary {
@@ -490,7 +547,8 @@ body {
 }
 
 .control-btn.outline:hover:not(:disabled) {
-  background-color: var(--gray-50);
+  background-color: var(--gray-100); /* Lighter hover for outline */
+  border-color: var(--gray-400);
 }
 
 .control-btn:disabled {
@@ -548,11 +606,11 @@ body {
 }
 
 .challenge-card {
-  background: linear-gradient(135deg, var(--accent) 0%, #f59e0b 100%);
-  color: var(--white);
+  background: linear-gradient(135deg, var(--accent) 0%, var(--accent) 100%); /* Solid accent color */
+  color: var(--gray-900); /* Dark text on light accent */
   border-radius: var(--radius-lg); /* Adjusted for mobile */
   padding: var(--space-6); /* Adjusted for mobile */
-  box-shadow: var(--shadow-lg);
+  box-shadow: var(--shadow-md); /* Consistent shadow */
 }
 
 .challenge-header {
@@ -564,6 +622,10 @@ body {
 
 .challenge-icon {
   font-size: var(--font-size-2xl); /* Adjusted for mobile */
+  color: var(--accent); /* Accent color for the icon */
+  background-color: var(--white); /* White background for the icon */
+  padding: var(--space-2);
+  border-radius: var(--radius-md);
 }
 
 .challenge-header h3 {
@@ -573,14 +635,15 @@ body {
 }
 
 .challenge-header p {
-  opacity: 0.9;
+  opacity: 1; /* Ensure full visibility */
   font-size: var(--font-size-sm); /* Adjusted for mobile */
+  color: var(--gray-700); /* Darker text for readability */
 }
 
 .challenge-bar {
   width: 100%;
   height: 6px; /* Adjusted for mobile */
-  background-color: rgba(255, 255, 255, 0.3);
+  background-color: rgba(255, 255, 255, 0.5); /* Lighter background for the bar */
   border-radius: var(--radius-full);
   overflow: hidden;
   margin-bottom: var(--space-2); /* Adjusted for mobile */
@@ -588,7 +651,7 @@ body {
 
 .challenge-fill {
   height: 100%;
-  background-color: var(--white);
+  background-color: var(--primary); /* Use primary green for fill */
   border-radius: var(--radius-full);
   transition: width 0.5s ease;
 }
@@ -597,7 +660,8 @@ body {
   display: flex;
   justify-content: space-between;
   font-size: var(--font-size-xs); /* Adjusted for mobile */
-  opacity: 0.9;
+  opacity: 1; /* Ensure full visibility */
+  color: var(--gray-700); /* Darker text for readability */
 }
 
 /* Virtual Forest Section - Visual representation of planted trees. */
@@ -623,19 +687,21 @@ body {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: var(--space-1); /* Adjusted for mobile */
+  gap: var(--space-2); /* Increased gap for better visual separation */
   max-width: 100%; /* Ensure full width on mobile */
   margin: 0 auto;
   padding: var(--space-6); /* Adjusted for mobile */
-  background: var(--secondary);
-  border-radius: var(--radius-lg); /* Adjusted for mobile */
+  background: var(--secondary); /* Use secondary light green */
+  border-radius: var(--radius-xl); /* Larger radius for a softer look */
   min-height: 150px; /* Adjusted for mobile */
   align-items: center;
+  box-shadow: var(--shadow-sm); /* Consistent shadow */
 }
 
 .forest-tree {
   font-size: var(--font-size-xl); /* Adjusted for mobile */
   animation: growIn 0.5s ease-out;
+  color: var(--primary); /* Use primary green for trees */
 }
 
 @keyframes growIn {
@@ -660,7 +726,7 @@ body {
   background: var(--white);
   border-radius: var(--radius-lg); /* Adjusted for mobile */
   padding: var(--space-6); /* Adjusted for mobile */
-  box-shadow: var(--shadow);
+  box-shadow: var(--shadow-sm); /* Softer shadow */
   display: flex;
   align-items: center;
   gap: var(--space-4); /* Adjusted for mobile */
@@ -674,8 +740,13 @@ body {
   box-shadow: var(--shadow-md); /* Adjusted for mobile */
 }
 
+.achievement-card:active {
+  transform: translateY(0); /* Press feedback */
+  box-shadow: var(--shadow-sm);
+}
+
 .achievement-card.unlocked {
-  background: linear-gradient(135deg, var(--secondary) 0%, var(--primary-light) 100%);
+  background: linear-gradient(135deg, var(--primary-light) 0%, var(--secondary) 100%); /* Lighter gradient for unlocked */
   border: 2px solid var(--primary);
 }
 
@@ -688,10 +759,12 @@ body {
   justify-content: center;
   background: var(--gray-100);
   border-radius: var(--radius-md); /* Adjusted for mobile */
+  color: var(--gray-600); /* Default icon color */
 }
 
 .achievement-card.unlocked .achievement-icon {
-  background: var(--white);
+  background: var(--primary); /* Primary background for unlocked icon */
+  color: var(--white); /* White icon for unlocked */
 }
 
 .achievement-content {
@@ -730,6 +803,7 @@ body {
 
 .achievement-status {
   font-size: var(--font-size-xl); /* Adjusted for mobile */
+  color: var(--primary); /* Primary color for status icon */
 }
 
 /* Leaderboard Section - Displays user rankings. */
@@ -757,6 +831,7 @@ body {
   font-size: var(--font-size-sm); /* Adjusted for mobile */
   flex: 1; /* Make buttons take equal width */
   text-align: center; /* Center text */
+  box-shadow: var(--shadow-xs); /* Softer shadow */
 }
 
 .filter-btn.active,
@@ -764,20 +839,26 @@ body {
   background: var(--primary);
   color: var(--white);
   border-color: var(--primary);
+  box-shadow: var(--shadow-sm);
+}
+
+.filter-btn:active {
+  transform: translateY(0); /* Press feedback */
+  box-shadow: var(--shadow-xs);
 }
 
 .leaderboard-list {
   background: var(--white);
-  border-radius: var(--radius-lg); /* Adjusted for mobile */
+  border-radius: var(--radius-xl); /* Larger radius for softer look */
   overflow: hidden;
-  box-shadow: var(--shadow);
+  box-shadow: var(--shadow-sm); /* Softer shadow */
 }
 
 .leaderboard-item {
   display: flex;
   align-items: center;
   padding: var(--space-4); /* Adjusted for mobile */
-  border-bottom: 1px solid var(--gray-200);
+  border-bottom: 1px solid var(--gray-100); /* Lighter border for separation */
   transition: var(--transition);
 }
 
@@ -790,7 +871,7 @@ body {
 }
 
 .leaderboard-item.current-user {
-  background: var(--secondary);
+  background: var(--secondary); /* Use secondary light green */
   border-left: 4px solid var(--primary);
 }
 
@@ -804,6 +885,7 @@ body {
 
 .leaderboard-rank.top-3 {
   font-size: var(--font-size-lg); /* Adjusted for mobile */
+  color: var(--accent); /* Use accent for top 3 ranks */
 }
 
 .leaderboard-avatar {
@@ -816,6 +898,7 @@ body {
   justify-content: center;
   font-size: var(--font-size-base); /* Adjusted for mobile */
   margin-right: var(--space-3); /* Adjusted for mobile */
+  color: var(--primary-dark); /* Darker green for avatar text/icon */
 }
 
 .leaderboard-info {
@@ -860,7 +943,7 @@ body {
   background: var(--white);
   border-radius: var(--radius-lg); /* Adjusted for mobile */
   padding: var(--space-6); /* Adjusted for mobile */
-  box-shadow: var(--shadow);
+  box-shadow: var(--shadow-sm); /* Softer shadow */
 }
 
 .analytics-card h3 {
@@ -889,8 +972,9 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--secondary);
+  background: var(--primary-light); /* Light green background for impact icons */
   border-radius: var(--radius-md); /* Adjusted for mobile */
+  color: var(--primary-dark); /* Darker green for impact icons */
 }
 
 .impact-value {
@@ -904,6 +988,82 @@ body {
   font-size: var(--font-size-xs); /* Adjusted for mobile */
   color: var(--gray-600);
 }
+
+/* Integration Card (Google) */
+.integration-card {
+  background: var(--white);
+  border-radius: var(--radius-xl); /* Larger radius */
+  padding: var(--space-6);
+  box-shadow: var(--shadow-md); /* More prominent shadow for key section */
+  margin-bottom: var(--space-12);
+}
+.integration-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-3);
+}
+.integration-title {
+  display: flex;
+  gap: var(--space-2);
+  align-items: center;
+}
+.integration-title i { color: var(--primary-dark); font-size: var(--font-size-xl); } /* Bigger icon */
+.integration-title h3 { font-size: var(--font-size-lg); color: var(--gray-900); }
+.settings-btn {
+  border: none;
+  background: var(--gray-100);
+  color: var(--gray-700);
+  border-radius: var(--radius-full); /* Circular button */
+  padding: var(--space-2); /* Smaller padding */
+  width: 40px; /* Fixed size */
+  height: 40px; /* Fixed size */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-xs);
+  transition: var(--transition);
+}
+.settings-btn:hover { background-color: var(--gray-200); box-shadow: var(--shadow-sm); }
+.settings-btn:active { transform: translateY(0); box-shadow: var(--shadow-xs); }
+.integration-subtitle { color: var(--gray-600); margin-bottom: var(--space-6); font-size: var(--font-size-sm); } /* More space */
+.integration-actions {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-3);
+  margin-bottom: var(--space-4); /* Adjusted for better spacing */
+}
+.integration-youtube { display: flex; gap: var(--space-3); align-items: center; flex-wrap: wrap; margin-top: var(--space-4); } /* Added margin-top */
+.file-input {
+  flex: 1;
+  padding: var(--space-3);
+  border: 1px solid var(--gray-300);
+  border-radius: var(--radius);
+  font-size: var(--font-size-sm);
+  color: var(--gray-700);
+}
+.action-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius);
+  border: 1px solid var(--gray-300);
+  background: var(--white);
+  color: var(--gray-700);
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  box-shadow: var(--shadow-xs);
+  font-size: var(--font-size-sm);
+}
+.action-btn:hover { box-shadow: var(--shadow-sm); }
+.action-btn:active { transform: translateY(0); box-shadow: var(--shadow-xs); }
+.action-btn.primary { background: var(--primary); color: var(--white); border-color: var(--primary); }
+.action-btn.primary:hover { background-color: var(--primary-dark); border-color: var(--primary-dark); }
+.action-btn.outline { background: transparent; color: var(--primary-dark); border-color: var(--primary-light); } /* Lighter border for outline */
+.action-btn.outline:hover { background-color: var(--primary-light); border-color: var(--primary); }
 
 /* Notifications - System for transient messages to the user. */
 .notification-container {
@@ -974,13 +1134,14 @@ body {
 
 .modal-content {
   background: var(--white);
-  border-radius: var(--radius-lg); /* Adjusted for mobile */
+  border-radius: var(--radius-xl); /* Larger radius for modal */
   max-width: 90%; /* Adjusted for mobile */
   width: 90%;
   max-height: 80vh; /* Adjusted for mobile */
   overflow-y: auto;
   transform: scale(0.9);
   transition: var(--transition);
+  box-shadow: var(--shadow-xl); /* Stronger shadow for modals */
 }
 
 .modal-overlay.active .modal-content {
@@ -1005,20 +1166,49 @@ body {
   background: none;
   border: none;
   font-size: var(--font-size-xl); /* Adjusted for mobile */
-  color: var(--gray-400);
+  color: var(--gray-500); /* Softer close icon */
   cursor: pointer;
   padding: var(--space-2);
-  border-radius: var(--radius);
+  border-radius: var(--radius-full); /* Circular close button */
   transition: var(--transition);
 }
 
 .modal-close:hover {
-  color: var(--gray-600);
+  color: var(--gray-700);
   background: var(--gray-100);
 }
 
 .modal-body {
   padding: var(--space-6); /* Adjusted for mobile */
+}
+
+/* Settings form */
+.settings-form { display: flex; flex-direction: column; gap: var(--space-4); }
+.form-row { display: grid; grid-template-columns: 1fr; gap: var(--space-4); }
+.form-input {
+  width: 100%;
+  padding: var(--space-3);
+  border: 1px solid var(--gray-300);
+  border-radius: var(--radius);
+  font-size: var(--font-size-base);
+  color: var(--gray-800);
+  background-color: var(--gray-50); /* Light background for inputs */
+}
+.form-input:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2); /* Green focus ring */
+}
+
+.form-group.checkbox { display: flex; align-items: center; gap: var(--space-2); }
+.settings-actions { display: flex; justify-content: flex-end; margin-top: var(--space-6); } /* Added margin-top */
+
+/* Larger screens enhancements */
+@media (min-width: 640px) {
+  .hero { min-height: calc(100vh - 10rem); }
+  .steps-count { font-size: 3.5rem; }
+  .integration-actions { grid-template-columns: repeat(4, 1fr); }
+  .form-row { grid-template-columns: repeat(2, 1fr); }
 }
 
 .achievement-celebration {

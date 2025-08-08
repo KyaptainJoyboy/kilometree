@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#22c55e"/>
   <title>Kilometree - Transform Steps into Environmental Impact</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -53,7 +54,7 @@
           </div>
           <div class="hero-visual">
             <!-- TODO: Replace with a compelling hero image, e.g., a stylized tree or a nature scene -->
-            <img src="assets/images/hero-placeholder.png" alt="Green forest illustration" style="max-width: 100%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-md);" />
+            <img src="assets/img/front.jpeg" alt="Green forest illustration" style="max-width: 100%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-md);" />
             <div class="floating-trees" id="heroTrees"></div>
           </div>
         </div>
@@ -172,6 +173,34 @@
                 <span id="challengeTimeLeft">6 days left</span>
               </div>
             </div>
+          </div>
+        </div>
+
+        <!-- Google Integrations -->
+        <div class="integration-card">
+          <div class="integration-header">
+            <div class="integration-title">
+              <i class="fab fa-google"></i>
+              <h3>Google Integrations</h3>
+            </div>
+            <button id="openSettingsBtn" class="settings-btn" aria-label="Open Google settings">
+              <i class="fas fa-gear"></i>
+            </button>
+          </div>
+          <p class="integration-subtitle">Sign in with Google to sync progress, create Calendar events, submit Forms, open dashboards, and upload campaign videos.</p>
+          <div class="integration-actions">
+            <button id="googleSignInBtn" class="action-btn primary"><i class="fab fa-google"></i> Sign in</button>
+            <button id="googleSignOutBtn" class="action-btn outline" disabled>Sign out</button>
+          </div>
+          <div class="integration-actions">
+            <button id="sheetsSyncBtn" class="action-btn"><i class="fas fa-table"></i> Sync to Sheets</button>
+            <button id="calendarEventBtn" class="action-btn"><i class="fas fa-calendar-plus"></i> Calendar Event</button>
+            <button id="formSubmitBtn" class="action-btn"><i class="fas fa-paper-plane"></i> Submit Form</button>
+            <button id="lookerBtn" class="action-btn"><i class="fas fa-chart-line"></i> Open Dashboard</button>
+          </div>
+          <div class="integration-youtube">
+            <input id="youtubeFileInput" type="file" accept="video/*" class="file-input" />
+            <button id="youtubeUploadBtn" class="action-btn"><i class="fab fa-youtube"></i> Upload to YouTube</button>
           </div>
         </div>
 
@@ -376,6 +405,63 @@
             <div class="achievement-icon-large" id="achievementIcon"><i class="fas fa-trophy"></i></div>
             <h3 id="achievementTitle">Achievement Title</h3>
             <p id="achievementDescription">Achievement description</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Google Settings Modal -->
+    <div class="modal-overlay" id="googleSettingsModal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2>Google Settings</h2>
+          <button class="modal-close" id="closeSettingsModal">×</button>
+        </div>
+        <div class="modal-body">
+          <div class="settings-form">
+            <div class="form-group">
+              <label for="googleClientId">OAuth Client ID</label>
+              <input id="googleClientId" type="text" class="form-input" placeholder="xxxxxxxxxxxx-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.apps.googleusercontent.com" />
+            </div>
+            <div class="form-group">
+              <label for="googleApiKey">API Key</label>
+              <input id="googleApiKey" type="text" class="form-input" placeholder="AIza..." />
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="googleCalendarId">Calendar ID</label>
+                <input id="googleCalendarId" type="text" class="form-input" placeholder="primary" />
+              </div>
+              <div class="form-group">
+                <label for="googleSheetId">Sheet ID</label>
+                <input id="googleSheetId" type="text" class="form-input" placeholder="1AbC..." />
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="googleFormId">Form ID</label>
+                <input id="googleFormId" type="text" class="form-input" placeholder="1aBC..." />
+              </div>
+              <div class="form-group">
+                <label for="googleFormPrefillUrl">Form Prefill URL</label>
+                <input id="googleFormPrefillUrl" type="url" class="form-input" placeholder="https://docs.google.com/forms/d/e/.../viewform?usp=pp_url" />
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="googleLookerUrl">Looker Studio Dashboard URL</label>
+              <input id="googleLookerUrl" type="url" class="form-input" placeholder="https://lookerstudio.google.com/reporting/..." />
+            </div>
+            <div class="form-group">
+              <label for="appsScriptWebAppUrl">Apps Script Web App URL (emails/reminders)</label>
+              <input id="appsScriptWebAppUrl" type="url" class="form-input" placeholder="https://script.google.com/macros/s/.../exec" />
+            </div>
+            <div class="form-group checkbox">
+              <input id="autoSyncToggle" type="checkbox" />
+              <label for="autoSyncToggle">Auto sync to Sheets on Save</label>
+            </div>
+          </div>
+          <div class="settings-actions">
+            <button id="saveSettingsBtn" class="cta-button"><span>Save</span><i class="fas fa-check"></i></button>
           </div>
         </div>
       </div>
