@@ -9,34 +9,96 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6TaYFAeBU6prgXfXSjx50VXAho/KqgB+hJpJeWz70yptgHA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <link rel="stylesheet" href="/src/styles/main.css">
+  <link rel="stylesheet" href="src/styles/main.css">
 </head>
 <body>
   <div id="app">
-    <!-- Navigation -->
-    <nav class="navbar">
-      <div class="nav-container">
-        <div class="nav-brand">
+    <!-- Floating Top Bar -->
+    <div class="top-bar">
+      <div class="top-bar-content">
+        <div class="top-brand">
           <div class="brand-icon"><i class="fas fa-seedling"></i></div>
           <span class="brand-text">Kilometree</span>
         </div>
         
-        <div class="nav-menu" id="navMenu">
-          <a href="#home" class="nav-link active" data-section="home">Home</a>
-          <a href="#achievements" class="nav-link" data-section="achievements">Achievements</a>
-          <a href="#leaderboard" class="nav-link" data-section="leaderboard">Leaderboard</a>
-          <a href="#analytics" class="nav-link" data-section="analytics">Analytics</a>
-          <a href="#donate" class="nav-link" data-section="donate">Donate</a>
-          <a href="#events" class="nav-link" data-section="events">Events</a>
+        <div class="top-auth">
+          <button class="login-btn" id="loginBtn">
+            <i class="fas fa-user-circle"></i>
+            <span>Sign In</span>
+          </button>
+          <div class="user-profile hidden" id="userProfile">
+            <img src="" alt="User Avatar" class="user-avatar" id="userAvatar" />
+            <span class="user-name" id="userName"></span>
+            <button class="logout-btn" id="logoutBtn" title="Sign Out"><i class="fas fa-sign-out-alt"></i></button>
+          </div>
         </div>
         
-        <button class="nav-toggle" id="navToggle">
+        <button class="menu-toggle" id="menuToggle">
           <span></span>
           <span></span>
           <span></span>
         </button>
       </div>
+    </div>
+
+    <!-- Sidebar Navigation -->
+    <nav class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-brand">
+          <div class="brand-icon"><i class="fas fa-seedling"></i></div>
+          <span class="brand-text">Kilometree</span>
+        </div>
+        <button class="sidebar-close" id="sidebarClose">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      
+      <div class="sidebar-menu">
+        <a href="#home" class="sidebar-link active" data-section="home">
+          <i class="fas fa-home"></i>
+          <span>Home</span>
+        </a>
+        <a href="#achievements" class="sidebar-link" data-section="achievements">
+          <i class="fas fa-trophy"></i>
+          <span>Achievements</span>
+        </a>
+        <a href="#leaderboard" class="sidebar-link" data-section="leaderboard">
+          <i class="fas fa-medal"></i>
+          <span>Leaderboard</span>
+        </a>
+        <a href="#analytics" class="sidebar-link" data-section="analytics">
+          <i class="fas fa-chart-line"></i>
+          <span>Analytics</span>
+        </a>
+        <a href="#donate" class="sidebar-link" data-section="donate">
+          <i class="fas fa-heart"></i>
+          <span>Donate</span>
+        </a>
+        <a href="#events" class="sidebar-link" data-section="events">
+          <i class="fas fa-calendar"></i>
+          <span>Events</span>
+        </a>
+        <a href="#google" class="sidebar-link" data-section="google">
+          <i class="fab fa-google"></i>
+          <span>Google Tools</span>
+        </a>
+      </div>
+      
+      <div class="sidebar-footer">
+        <div class="sidebar-user" id="sidebarUser">
+          <div class="user-info">
+            <img src="" alt="User Avatar" class="user-avatar" id="sidebarUserAvatar" />
+            <div class="user-details">
+              <span class="user-name" id="sidebarUserName">Guest User</span>
+              <span class="user-status">Not signed in</span>
+            </div>
+          </div>
+        </div>
+      </div>
     </nav>
+
+    <!-- Sidebar Overlay -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
     <!-- Main Content -->
     <main class="main-content">
@@ -53,8 +115,6 @@
             </button>
           </div>
           <div class="hero-visual">
-            <!-- TODO: Replace with a compelling hero image, e.g., a stylized tree or a nature scene -->
-            <img src="assets/img/front.jpeg" alt="Green forest illustration" style="max-width: 100%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-md);" />
             <div class="floating-trees" id="heroTrees"></div>
           </div>
         </div>
@@ -176,33 +236,7 @@
           </div>
         </div>
 
-        <!-- Google Integrations -->
-        <div class="integration-card">
-          <div class="integration-header">
-            <div class="integration-title">
-              <i class="fab fa-google"></i>
-              <h3>Google Integrations</h3>
-            </div>
-            <button id="openSettingsBtn" class="settings-btn" aria-label="Open Google settings">
-              <i class="fas fa-gear"></i>
-            </button>
-          </div>
-          <p class="integration-subtitle">Sign in with Google to sync progress, create Calendar events, submit Forms, open dashboards, and upload campaign videos.</p>
-          <div class="integration-actions">
-            <button id="googleSignInBtn" class="action-btn primary"><i class="fab fa-google"></i> Sign in</button>
-            <button id="googleSignOutBtn" class="action-btn outline" disabled>Sign out</button>
-          </div>
-          <div class="integration-actions">
-            <button id="sheetsSyncBtn" class="action-btn"><i class="fas fa-table"></i> Sync to Sheets</button>
-            <button id="calendarEventBtn" class="action-btn"><i class="fas fa-calendar-plus"></i> Calendar Event</button>
-            <button id="formSubmitBtn" class="action-btn"><i class="fas fa-paper-plane"></i> Submit Form</button>
-            <button id="lookerBtn" class="action-btn"><i class="fas fa-chart-line"></i> Open Dashboard</button>
-          </div>
-          <div class="integration-youtube">
-            <input id="youtubeFileInput" type="file" accept="video/*" class="file-input" />
-            <button id="youtubeUploadBtn" class="action-btn"><i class="fab fa-youtube"></i> Upload to YouTube</button>
-          </div>
-        </div>
+
 
         <!-- Virtual Forest -->
         <div class="forest-section">
@@ -459,6 +493,10 @@
               <input id="autoSyncToggle" type="checkbox" />
               <label for="autoSyncToggle">Auto sync to Sheets on Save</label>
             </div>
+            <div class="form-group checkbox">
+              <input id="toggleGoogleFit" type="checkbox" />
+              <label for="toggleGoogleFit">Enable Google Fit Integration</label>
+            </div>
           </div>
           <div class="settings-actions">
             <button id="saveSettingsBtn" class="cta-button"><span>Save</span><i class="fas fa-check"></i></button>
@@ -466,8 +504,188 @@
         </div>
       </div>
     </div>
+
+    <!-- Google Tools Section -->
+    <section id="google" class="section">
+      <div class="section-header">
+        <h1>Google Tools & Integrations</h1>
+        <p>Connect your Google services to enhance your Kilometree experience</p>
+      </div>
+      
+      <div class="google-tools-grid">
+        <!-- Google Fit Integration -->
+        <div class="google-tool-card">
+          <div class="tool-header">
+            <div class="tool-icon"><i class="fab fa-google"></i></div>
+            <h3>Google Fit Sync</h3>
+            <button class="tool-toggle" id="googleFitToggle">
+              <span class="toggle-slider"></span>
+            </button>
+          </div>
+          <p class="tool-description">Automatically sync your daily steps from Google Fit</p>
+          <div class="tool-actions">
+            <button class="action-btn primary" id="syncNowBtn">
+              <i class="fas fa-sync-alt"></i>
+              <span>Sync Now</span>
+            </button>
+            <button class="action-btn outline" id="viewFitDataBtn">
+              <i class="fas fa-chart-line"></i>
+              <span>View Data</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Google Analytics -->
+        <div class="google-tool-card">
+          <div class="tool-header">
+            <div class="tool-icon"><i class="fas fa-chart-bar"></i></div>
+            <h3>Analytics Dashboard</h3>
+            <button class="tool-toggle" id="analyticsToggle">
+              <span class="toggle-slider"></span>
+            </button>
+          </div>
+          <p class="tool-description">Track your environmental impact with detailed analytics</p>
+          <div class="tool-actions">
+            <button class="action-btn primary" id="openAnalyticsBtn">
+              <i class="fas fa-external-link-alt"></i>
+              <span>Open Dashboard</span>
+            </button>
+            <button class="action-btn outline" id="exportDataBtn">
+              <i class="fas fa-download"></i>
+              <span>Export Data</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Google Calendar -->
+        <div class="google-tool-card">
+          <div class="tool-header">
+            <div class="tool-icon"><i class="fas fa-calendar-alt"></i></div>
+            <h3>Calendar Events</h3>
+            <button class="tool-toggle" id="calendarToggle">
+              <span class="toggle-slider"></span>
+            </button>
+          </div>
+          <p class="tool-description">Schedule tree planting events and reminders</p>
+          <div class="tool-actions">
+            <button class="action-btn primary" id="createEventBtn">
+              <i class="fas fa-plus"></i>
+              <span>Create Event</span>
+            </button>
+            <button class="action-btn outline" id="viewCalendarBtn">
+              <i class="fas fa-calendar"></i>
+              <span>View Calendar</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Google Sheets -->
+        <div class="google-tool-card">
+          <div class="tool-header">
+            <div class="tool-icon"><i class="fas fa-table"></i></div>
+            <h3>Progress Tracking</h3>
+            <button class="tool-toggle" id="sheetsToggle">
+              <span class="toggle-slider"></span>
+            </button>
+          </div>
+          <p class="tool-description">Log your progress in Google Sheets automatically</p>
+          <div class="tool-actions">
+            <button class="action-btn primary" id="syncToSheetsBtn">
+              <i class="fas fa-upload"></i>
+              <span>Sync to Sheets</span>
+            </button>
+            <button class="action-btn outline" id="viewSheetBtn">
+              <i class="fas fa-external-link-alt"></i>
+              <span>View Sheet</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- YouTube Integration -->
+        <div class="google-tool-card">
+          <div class="tool-header">
+            <div class="tool-icon"><i class="fab fa-youtube"></i></div>
+            <h3>Video Sharing</h3>
+            <button class="tool-toggle" id="youtubeToggle">
+              <span class="toggle-slider"></span>
+            </button>
+          </div>
+          <p class="tool-description">Share your environmental journey on YouTube</p>
+          <div class="tool-actions">
+            <button class="action-btn primary" id="uploadVideoBtn">
+              <i class="fas fa-upload"></i>
+              <span>Upload Video</span>
+            </button>
+            <input type="file" id="videoFileInput" accept="video/*" class="file-input" style="display: none;" />
+            <button class="action-btn outline" id="viewChannelBtn">
+              <i class="fas fa-external-link-alt"></i>
+              <span>View Channel</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Google Forms -->
+        <div class="google-tool-card">
+          <div class="tool-header">
+            <div class="tool-icon"><i class="fas fa-clipboard-list"></i></div>
+            <h3>Feedback & Surveys</h3>
+            <button class="tool-toggle" id="formsToggle">
+              <span class="toggle-slider"></span>
+            </button>
+          </div>
+          <p class="tool-description">Submit feedback and participate in surveys</p>
+          <div class="tool-actions">
+            <button class="action-btn primary" id="submitFeedbackBtn">
+              <i class="fas fa-paper-plane"></i>
+              <span>Submit Feedback</span>
+            </button>
+            <button class="action-btn outline" id="viewSurveysBtn">
+              <i class="fas fa-list"></i>
+              <span>View Surveys</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Settings Section -->
+      <div class="google-settings-section">
+        <div class="section-header">
+          <h2>Integration Settings</h2>
+          <p>Configure your Google service connections</p>
+        </div>
+        <div class="settings-card">
+          <div class="settings-content">
+            <p>Customize your Google integrations and manage your data connections.</p>
+            <button class="action-btn primary" id="openGoogleSettingsBtn">
+              <i class="fas fa-cog"></i>
+              <span>Configure Settings</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Manual Input Modal -->
+    <div class="modal-overlay" id="manualInputModal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2>Manual Step Entry</h2>
+          <button class="modal-close" id="closeManualInputModal">×</button>
+        </div>
+        <div class="modal-body">
+          <p id="manualInputMessage" class="integration-subtitle"></p>
+          <div class="form-group">
+            <label for="manualStepInputModal">Enter steps:</label>
+            <input type="number" id="manualStepInputModal" class="form-input" placeholder="e.g., 5000" min="0" />
+          </div>
+          <div class="settings-actions">
+            <button id="manualStepSubmitBtnModal" class="cta-button"><span>Save Steps</span><i class="fas fa-save"></i></button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 
-  <script type="module" src="/src/main.js"></script>
+  <script type="module" src="src/main.js"></script>
 </body>
 </html>

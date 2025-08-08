@@ -11,7 +11,8 @@ export class GoogleIntegration {
       'https://www.googleapis.com/auth/userinfo.email',
       'https://www.googleapis.com/auth/calendar.events',
       'https://www.googleapis.com/auth/spreadsheets',
-      'https://www.googleapis.com/auth/youtube.upload'
+      'https://www.googleapis.com/auth/youtube.upload',
+      'https://www.googleapis.com/auth/fitness.activity.read' // Add Google Fit scope
     ].join(' ');
   }
 
@@ -50,7 +51,7 @@ export class GoogleIntegration {
             reject(response);
             return;
           }
-          this.accessToken = response.access_token;
+          this._accessToken = response.access_token;
           // Access tokens last ~3600s; set a soft expiry
           this.tokenExpiresAt = Date.now() + 58 * 60 * 1000;
           this.onAuthChange?.(true);
@@ -62,13 +63,68 @@ export class GoogleIntegration {
   }
 
   signIn() {
-    this.accessToken = null; // force prompt
+    this._accessToken = null; // force prompt
     return this.ensureToken();
   }
 
   signOut() {
-    this.accessToken = null;
+    this._accessToken = null;
     this.onAuthChange?.(false);
+  }
+
+  get accessToken() {
+    return this._accessToken;
+  }
+
+  set accessToken(value) {
+    this._accessToken = value;
+  }
+
+  async getDailySteps(dateString) {
+    const token = await this.ensureToken();
+
+    const startOfDay = new Date(dateString);
+    startOfDay.setHours(0, 0, 0, 0);
+    const endOfDay = new Date(dateString);
+    endOfDay.setHours(23, 59, 59, 999);
+
+    const startTimeMillis = startOfDay.getTime();
+    const endTimeMillis = endOfDay.getTime();
+
+    const body = {
+      aggregateBy: [{
+        dataTypeName: "com.google.step_count.delta",
+        dataSourceId: "derived:com.google.step_count.delta:com.google.android.gms:estimated_steps"
+      }],
+      bucketByTime: { durationMillis: 86400000 }, // One day in milliseconds
+      startTimeMillis,
+      endTimeMillis
+    };
+
+    try {
+      const response = await fetch('https://www.googleapis.com/fitness/v1/users/me/dataset:aggregate', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(body)
+      });
+
+      await this.assertOk(response);
+      const data = await response.json();
+
+      // Parse the response to get step count
+      const bucket = data.bucket && data.bucket[0];
+      const dataset = bucket && bucket.dataset && bucket.dataset[0];
+      const point = dataset && dataset.point && dataset.point[0];
+      const value = point && point.value && point.value[0];
+
+      return value?.intVal || 0;
+    } catch (error) {
+      console.error('Error fetching Google Fit steps:', error);
+      throw error; // Re-throw to be caught by the caller
+    }
   }
 
   getNextSaturday() {

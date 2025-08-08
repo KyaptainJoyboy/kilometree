@@ -21,6 +21,14 @@ class KilometreeApp {
     this.dailyData = JSON.parse(localStorage.getItem('dailyData') || '{}');
     this.achievements = JSON.parse(localStorage.getItem('achievements') || '{}');
     
+    // New state for Google Fit integration and manual input
+    this.googleFitEnabled = localStorage.getItem('googleFitEnabled') === 'true';
+    this.manualSteps = 0;
+    this.useManualInput = localStorage.getItem('useManualInput') === 'true';
+    
+    // User authentication state
+    this.userProfile = JSON.parse(localStorage.getItem('userProfile') || 'null');
+    
     // Internal state for simulation and chart instances
     this.stepInterval = null;
     this.chart = null;
@@ -38,6 +46,7 @@ class KilometreeApp {
         link: '#',
         linkText: 'Sign Up',
         imageUrl: 'assets/images/event-tree-planting.jpg', // Placeholder image
+        youtubeEmbedUrl: 'https://www.youtube.com/embed/your-video-id-1' // Example YouTube embed
       },
       {
         id: 'event-2',
@@ -49,6 +58,7 @@ class KilometreeApp {
         link: '#',
         linkText: 'RSVP',
         imageUrl: 'assets/images/event-celebration.jpg', // Placeholder image
+        youtubeEmbedUrl: '' // Empty to test fallback
       },
       {
         id: 'event-3',
@@ -59,7 +69,8 @@ class KilometreeApp {
         description: 'Help us clear plastic and debris from our beautiful coastline. Bags and gloves provided.',
         link: '#',
         linkText: 'Volunteer',
-        imageUrl: 'assets/images/event-cleanup.jpg', // Placeholder image
+        imageUrl: '', // Empty to test image fallback
+        youtubeEmbedUrl: 'https://www.youtube.com/embed/your-video-id-3'
       },
     ];
 
@@ -114,6 +125,9 @@ class KilometreeApp {
     this.updateAchievements();
     this.generateEvents();
     this.setupGoogle();
+    this.initializeGoogleTools();
+    this.updateGoogleFitUI();
+    this.updateAuthUI();
 
     // Restore last active section from localStorage to maintain user's last view.
     const lastActiveSection = localStorage.getItem('lastActiveSection');
@@ -160,21 +174,173 @@ class KilometreeApp {
 
     // Donation button interaction
     document.getElementById('donateButton').addEventListener('click', () => this.handleDonation());
-  }
+    
+    // New: Manual step input and Google Fit toggle
+    document.getElementById('manualStepInput')?.addEventListener('input', (e) => this.manualSteps = parseInt(e.target.value) || 0);
+    document.getElementById('manualStepSubmitBtn')?.addEventListener('click', () => this.saveManualSteps());
+    document.getElementById('toggleGoogleFit')?.addEventListener('change', (e) => this.toggleGoogleFit(e.target.checked));
+    document.getElementById('promptManualInputBtn')?.addEventListener('click', () => this.showManualInputModal());
+    
+    // Manual input modal controls
+    document.getElementById('closeManualInputModal')?.addEventListener('click', () => document.getElementById('manualInputModal').classList.remove('active'));
+    document.getElementById('manualStepSubmitBtnModal')?.addEventListener('click', () => this.saveManualSteps());
+    
+    // Google Fit sync button
+    document.getElementById('googleFitSyncBtn')?.addEventListener('click', () => this.fetchGoogleFitStepsForToday());
+    
+    // Google Tools Section Event Listeners
+    document.getElementById('googleFitToggle')?.addEventListener('click', () => {
+      this.toggleGoogleTool('googleFit');
+    });
+    
+    document.getElementById('analyticsToggle')?.addEventListener('click', () => {
+      this.toggleGoogleTool('analytics');
+    });
+    
+    document.getElementById('calendarToggle')?.addEventListener('click', () => {
+      this.toggleGoogleTool('calendar');
+    });
+    
+    document.getElementById('sheetsToggle')?.addEventListener('click', () => {
+      this.toggleGoogleTool('sheets');
+    });
+    
+    document.getElementById('youtubeToggle')?.addEventListener('click', () => {
+      this.toggleGoogleTool('youtube');
+    });
+    
+    document.getElementById('formsToggle')?.addEventListener('click', () => {
+      this.toggleGoogleTool('forms');
+    });
 
+    // Google Tools Action Buttons
+    document.getElementById('syncNowBtn')?.addEventListener('click', () => {
+      this.fetchGoogleFitStepsForToday();
+    });
+    
+    document.getElementById('openAnalyticsBtn')?.addEventListener('click', () => {
+      this.openGoogleAnalytics();
+    });
+    
+    document.getElementById('createEventBtn')?.addEventListener('click', () => {
+      this.createGoogleCalendarEvent();
+    });
+    
+    document.getElementById('syncToSheetsBtn')?.addEventListener('click', () => {
+      this.syncToGoogleSheets();
+    });
+    
+    document.getElementById('uploadVideoBtn')?.addEventListener('click', () => {
+      document.getElementById('videoFileInput').click();
+    });
+    
+    document.getElementById('submitFeedbackBtn')?.addEventListener('click', () => {
+      this.submitGoogleForm();
+    });
+    
+    document.getElementById('openGoogleSettingsBtn')?.addEventListener('click', () => {
+      document.getElementById('googleSettingsModal').classList.add('active');
+    });
+    
+    // Video file input
+    document.getElementById('videoFileInput')?.addEventListener('change', (e) => {
+      if (e.target.files[0]) {
+        this.uploadYouTubeVideo(e.target.files[0]);
+      }
+    });
+    
+    // Authentication buttons
+    document.getElementById('loginBtn')?.addEventListener('click', () => this.handleLogin());
+    document.getElementById('logoutBtn')?.addEventListener('click', () => this.handleLogout());
+    
+    // Sidebar functionality
+    document.getElementById('menuToggle')?.addEventListener('click', () => this.toggleSidebar());
+    document.getElementById('sidebarClose')?.addEventListener('click', () => this.closeSidebar());
+    document.getElementById('sidebarOverlay')?.addEventListener('click', () => this.closeSidebar());
+  }
+  
+  /**
+   * Configures the main navigation and mobile menu toggle functionality.
+   */
+  setupNavigation() {
+    const sidebarLinks = document.querySelectorAll('.sidebar-link');
+    const sections = document.querySelectorAll('.section');
+    
+    sidebarLinks.forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault(); // Prevent default anchor link behavior
+        const targetSection = e.currentTarget.dataset.section; // Get target section ID from data-attribute
+        
+        // Update active navigation link styling
+        sidebarLinks.forEach(l => l.classList.remove('active'));
+        e.currentTarget.classList.add('active');
+        
+        // Show the target section and hide others
+        sections.forEach(s => s.classList.remove('active'));
+        document.getElementById(targetSection).classList.add('active');
+        
+        // Close the sidebar
+        this.closeSidebar();
+
+        // Save the currently active section to localStorage for persistence
+        localStorage.setItem('lastActiveSection', targetSection);
+      });
+    });
+  }
+  
+  /**
+   * Sidebar functionality methods
+   */
+  toggleSidebar() {
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('sidebarOverlay');
+    
+    if (sidebar && overlay) {
+      sidebar.classList.toggle('active');
+      overlay.classList.toggle('active');
+      
+      // Prevent body scroll when sidebar is open
+      if (sidebar.classList.contains('active')) {
+        document.body.style.overflow = 'hidden';
+      } else {
+        document.body.style.overflow = '';
+      }
+    }
+  }
+  
+  closeSidebar() {
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('sidebarOverlay');
+    
+    if (sidebar && overlay) {
+      sidebar.classList.remove('active');
+      overlay.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+  }
+  
   /**
    * Initializes Google integrations and wires UI controls.
    */
   setupGoogle() {
     try {
       this.google = new GoogleIntegration({
-        onAuthChange: (isSignedIn) => {
+        onAuthChange: async (isSignedIn) => {
           const signInBtn = document.getElementById('googleSignInBtn');
           const signOutBtn = document.getElementById('googleSignOutBtn');
           if (signInBtn && signOutBtn) {
             signInBtn.disabled = isSignedIn;
             signOutBtn.disabled = !isSignedIn;
           }
+          
+          if (isSignedIn) {
+            await this.loadUserProfile();
+          } else {
+            this.clearUserProfile();
+          }
+          
+          this.updateAuthUI();
+          this.updateGoogleFitUI(); // Update UI on auth change
         }
       });
       this.google.initialize();
@@ -275,6 +441,146 @@ class KilometreeApp {
         this.showNotification('YouTube upload failed. Check settings/permissions.', 'error');
       }
     });
+    
+    // Fetch and display Google Fit data on load if enabled
+    this.updateGoogleFitUI();
+    if (this.googleFitEnabled && this.google?.isReady) {
+      this.fetchGoogleFitStepsForToday();
+    }
+  }
+
+  /**
+   * Handles user login through Google OAuth
+   */
+  async handleLogin() {
+    try {
+      await this.google?.signIn();
+      await this.loadUserProfile();
+      this.updateAuthUI();
+      this.showNotification('Successfully signed in!', 'success');
+    } catch (error) {
+      console.error('Login failed:', error);
+      this.showNotification('Login failed. Please try again.', 'error');
+    }
+  }
+
+  /**
+   * Handles user logout
+   */
+  async handleLogout() {
+    try {
+      this.google?.signOut();
+      this.clearUserProfile();
+      this.updateAuthUI();
+      this.showNotification('Successfully signed out!', 'info');
+    } catch (error) {
+      console.error('Logout failed:', error);
+      this.showNotification('Logout failed. Please try again.', 'error');
+    }
+  }
+
+  /**
+   * Loads user profile information from Google
+   */
+  async loadUserProfile() {
+    try {
+      if (!this.google?.accessToken) return;
+      
+      const response = await fetch('https://www.googleapis.com/oauth2/v2/userinfo', {
+        headers: {
+          'Authorization': `Bearer ${this.google.accessToken}`
+        }
+      });
+      
+      if (response.ok) {
+        const userInfo = await response.json();
+        this.userProfile = {
+          id: userInfo.id,
+          name: userInfo.name,
+          email: userInfo.email,
+          picture: userInfo.picture
+        };
+        localStorage.setItem('userProfile', JSON.stringify(this.userProfile));
+      }
+    } catch (error) {
+      console.error('Failed to load user profile:', error);
+    }
+  }
+
+  /**
+   * Clears user profile data
+   */
+  clearUserProfile() {
+    this.userProfile = null;
+    localStorage.removeItem('userProfile');
+  }
+
+  /**
+   * Updates the authentication UI based on login status
+   */
+  updateAuthUI() {
+    const loginBtn = document.getElementById('loginBtn');
+    const userProfile = document.getElementById('userProfile');
+    const userAvatar = document.getElementById('userAvatar');
+    const userName = document.getElementById('userName');
+    
+    // Sidebar user elements
+    const sidebarUserAvatar = document.getElementById('sidebarUserAvatar');
+    const sidebarUserName = document.getElementById('sidebarUserName');
+    const sidebarUser = document.getElementById('sidebarUser');
+    
+    if (this.userProfile) {
+      // User is logged in
+      loginBtn?.classList.add('hidden');
+      userProfile?.classList.remove('hidden');
+      
+      if (userAvatar) {
+        userAvatar.src = this.userProfile.picture || '';
+        userAvatar.alt = `${this.userProfile.name}'s avatar`;
+      }
+      
+      if (userName) {
+        userName.textContent = this.userProfile.name || this.userProfile.email || 'User';
+      }
+      
+      // Update sidebar user info
+      if (sidebarUserAvatar) {
+        sidebarUserAvatar.src = this.userProfile.picture || '';
+        sidebarUserAvatar.alt = `${this.userProfile.name}'s avatar`;
+      }
+      
+      if (sidebarUserName) {
+        sidebarUserName.textContent = this.userProfile.name || this.userProfile.email || 'User';
+      }
+      
+      if (sidebarUser) {
+        const userStatus = sidebarUser.querySelector('.user-status');
+        if (userStatus) {
+          userStatus.textContent = 'Signed in';
+        }
+      }
+    } else {
+      // User is not logged in
+      loginBtn?.classList.remove('hidden');
+      userProfile?.classList.add('hidden');
+      
+      // Reset sidebar user info
+      if (sidebarUserAvatar) {
+        sidebarUserAvatar.src = '';
+        sidebarUserAvatar.alt = 'Guest User';
+      }
+      
+      if (sidebarUserName) {
+        sidebarUserName.textContent = 'Guest User';
+      }
+      
+      if (sidebarUser) {
+        const userStatus = sidebarUser.querySelector('.user-status');
+        if (userStatus) {
+          userStatus.textContent = 'Not signed in';
+        }
+      }
+    }
   }
 
   /**
@@ -291,45 +597,137 @@ class KilometreeApp {
       formPrefillUrl: get('googleFormPrefillUrl'),
       lookerUrl: get('googleLookerUrl'),
       appsScriptWebAppUrl: get('appsScriptWebAppUrl'),
-      autoSync: !!document.getElementById('autoSyncToggle')?.checked
+      autoSync: !!document.getElementById('autoSyncToggle')?.checked,
+      // New: Google Fit toggle setting
+      googleFitEnabled: !!document.getElementById('toggleGoogleFit')?.checked
     };
     return cfg;
   }
   
   /**
-   * Configures the main navigation and mobile menu toggle functionality.
+   * Toggles Google Fit integration on/off.
+   * @param {boolean} enable - Whether to enable Google Fit.
    */
-  setupNavigation() {
-    const navLinks = document.querySelectorAll('.nav-link');
-    const sections = document.querySelectorAll('.section');
-    const navToggle = document.getElementById('navToggle');
-    const navMenu = document.getElementById('navMenu');
+  toggleGoogleFit(enable) {
+    this.googleFitEnabled = enable;
+    localStorage.setItem('googleFitEnabled', enable.toString());
+    this.updateGoogleFitUI();
+    if (enable) {
+      this.fetchGoogleFitStepsForToday();
+      this.showNotification('Google Fit integration enabled.', 'success');
+    } else {
+      this.showNotification('Google Fit integration disabled. Using simulated steps.', 'info');
+      // Optionally reset current steps if disabling Google Fit
+      this.currentSteps = 0;
+      this.updateCurrentDisplay();
+      this.pauseTracking(); // Stop any active tracking
+    }
+  }
+  
+  /**
+   * Updates UI elements related to Google Fit and manual input based on current state.
+   */
+  updateGoogleFitUI() {
+    const googleFitSection = document.getElementById('googleFitSection');
+    const manualInputSection = document.getElementById('manualInputSection');
+    const toggleGoogleFitCheckbox = document.getElementById('toggleGoogleFit');
+    const googleSignInBtn = document.getElementById('googleSignInBtn');
+    const googleSignOutBtn = document.getElementById('googleSignOutBtn');
+    const trackerControls = document.querySelector('.tracker-controls');
+    const trackerStatus = document.getElementById('trackerStatus');
     
-    navLinks.forEach(link => {
-      link.addEventListener('click', (e) => {
-        e.preventDefault(); // Prevent default anchor link behavior
-        const targetSection = e.target.dataset.section; // Get target section ID from data-attribute
-        
-        // Update active navigation link styling
-        navLinks.forEach(l => l.classList.remove('active'));
-        e.target.classList.add('active');
-        
-        // Show the target section and hide others
-        sections.forEach(s => s.classList.remove('active'));
-        document.getElementById(targetSection).classList.add('active');
-        
-        // Close the mobile navigation menu if open
-        navMenu.classList.remove('active');
-
-        // Save the currently active section to localStorage for persistence
-        localStorage.setItem('lastActiveSection', targetSection);
-      });
-    });
+    if (!googleFitSection || !manualInputSection || !toggleGoogleFitCheckbox) return;
     
-    // Mobile menu toggle functionality (hamburger icon)
-    navToggle.addEventListener('click', () => {
-      navMenu.classList.toggle('active');
-    });
+    toggleGoogleFitCheckbox.checked = this.googleFitEnabled;
+    
+    if (this.googleFitEnabled) {
+      googleFitSection.style.display = 'block';
+      manualInputSection.style.display = 'none';
+      trackerControls.style.display = 'none'; // Hide simulation controls
+      trackerStatus.style.display = 'none';
+      if (this.google?.isSignedIn) {
+        googleSignInBtn.style.display = 'none';
+        googleSignOutBtn.style.display = 'inline-flex';
+      } else {
+        googleSignInBtn.style.display = 'inline-flex';
+        googleSignOutBtn.style.display = 'none';
+      }
+      // Always allow manual input if Google Fit is enabled but API access might not be ready
+      document.getElementById('promptManualInputBtn').style.display = 'inline-flex';
+    } else {
+      googleFitSection.style.display = 'none';
+      manualInputSection.style.display = 'flex'; // Show manual input for non-Google Fit
+      trackerControls.style.display = 'flex'; // Show simulation controls
+      trackerStatus.style.display = 'flex';
+      googleSignInBtn.style.display = 'none';
+      googleSignOutBtn.style.display = 'none';
+      document.getElementById('promptManualInputBtn').style.display = 'none';
+    }
+    
+    // Update "Start Tracking" button text based on mode
+    const startTrackingBtn = document.getElementById('startTrackingBtn');
+    if (startTrackingBtn) {
+      startTrackingBtn.querySelector('span').textContent = this.googleFitEnabled ? 'Sync with Google Fit' : 'Start Tracking';
+    }
+  }
+  
+  /**
+   * Fetches daily steps from Google Fit API.
+   */
+  async fetchGoogleFitStepsForToday() {
+    if (!this.googleFitEnabled || !this.google?.isSignedIn) return;
+    
+    const today = new Date().toISOString().split('T')[0];
+    try {
+      this.updateTrackerStatus('Syncing with Google Fit...', 'tracking');
+      const steps = await this.google?.getDailySteps(today);
+      this.currentSteps = steps;
+      this.updateCurrentDisplay();
+      this.updateTrackerStatus(`Synced ${steps} steps from Google Fit`, 'success');
+      this.showNotification(`Successfully synced ${steps} steps from Google Fit.`, 'success');
+      
+      // Immediately save if auto-sync is enabled
+      this.saveSession();
+    } catch (e) {
+      console.error('Failed to fetch Google Fit steps:', e);
+      this.showNotification('Failed to sync with Google Fit. Please sign in or check permissions.', 'error');
+      this.updateTrackerStatus('Google Fit sync failed', 'error');
+      // Fallback to manual input if Google Fit fails
+      this.showManualInputModal('Google Fit data could not be fetched. Please enter your steps manually.');
+    }
+  }
+  
+  /**
+   * Displays the modal for manual step input.
+   * @param {string} [message] - Optional message to display in the modal.
+   */
+  showManualInputModal(message = '') {
+    const modal = document.getElementById('manualInputModal');
+    const messageEl = document.getElementById('manualInputMessage');
+    if (modal && messageEl) {
+      messageEl.textContent = message;
+      modal.classList.add('active');
+      // Pre-fill with currentSteps if it's from a failed Fit sync
+      document.getElementById('manualStepInput').value = this.currentSteps > 0 ? this.currentSteps.toString() : '';
+    }
+  }
+  
+  /**
+   * Saves manually entered steps and updates UI.
+   */
+  saveManualSteps() {
+    const inputEl = document.getElementById('manualStepInput');
+    const steps = parseInt(inputEl.value);
+    if (isNaN(steps) || steps < 0) {
+      this.showNotification('Please enter a valid number of steps.', 'error');
+      return;
+    }
+    
+    this.currentSteps = steps;
+    this.updateCurrentDisplay();
+    this.saveSession();
+    document.getElementById('manualInputModal').classList.remove('active');
+    this.showNotification(`Manually entered ${steps} steps.`, 'success');
   }
   
   /**
@@ -337,6 +735,11 @@ class KilometreeApp {
    * Prevents multiple simulations from running concurrently.
    */
   startTracking() {
+    if (this.googleFitEnabled) {
+      this.fetchGoogleFitStepsForToday();
+      return;
+    }
+    
     if (this.isTracking) return; // Prevent starting if already tracking
     
     this.isTracking = true;
@@ -382,10 +785,20 @@ class KilometreeApp {
    * to overall totals and persists them in localStorage.
    */
   saveSession() {
-    if (this.currentSteps === 0) {
+    let stepsToSave = this.currentSteps; // Default to current steps
+    
+    if (this.googleFitEnabled && this.google?.isSignedIn) {
+      // If Google Fit is enabled and signed in, stepsToSave should already be from Fit
+      // No need for further action here, currentSteps is already updated by fetchGoogleFitStepsForToday
+    } else if (this.useManualInput) {
+      stepsToSave = this.manualSteps; // Use manual steps if enabled
+    } else if (this.currentSteps === 0) {
       this.showNotification('No activity to save!', 'warning');
       return;
     }
+    
+    // Ensure currentSteps is updated for consistency before calculations
+    this.currentSteps = stepsToSave;
     
     // Accumulate current session's data into total counts
     this.totalSteps += this.currentSteps;
@@ -409,9 +822,11 @@ class KilometreeApp {
     // Persist all data to localStorage
     this.saveToStorage();
     
-    // Reset current session counters
-    this.currentSteps = 0;
-    this.pauseTracking(); // Automatically pause after saving
+    // Reset current session counters if not using Google Fit (which provides daily totals)
+    if (!this.googleFitEnabled) {
+      this.currentSteps = 0;
+      this.pauseTracking(); // Automatically pause after saving for simulation
+    }
     
     // Update all UI elements with new total data
     this.updateUI();
@@ -421,10 +836,12 @@ class KilometreeApp {
     
     this.showNotification(`Session saved! You earned ${sessionSaplings} saplings.`, 'success');
     
-    // Reset tracker status and disable save button
-    this.updateTrackerStatus('Ready to track', 'ready');
-    document.getElementById('saveBtn').disabled = true;
-
+    // Reset tracker status and disable save button if not Google Fit
+    if (!this.googleFitEnabled) {
+      this.updateTrackerStatus('Ready to track', 'ready');
+      document.getElementById('saveBtn').disabled = true;
+    }
+    
     // Auto sync with Google services if enabled
     try {
       this.google?.autoSyncOnSave?.({
@@ -458,6 +875,12 @@ class KilometreeApp {
     document.getElementById('currentSteps').textContent = this.currentSteps.toLocaleString();
     document.getElementById('currentDistance').textContent = distance.toFixed(2) + ' km';
     document.getElementById('currentSaplings').textContent = saplings.toString();
+    
+    // Also update the manual input field if the modal is open
+    const manualInputEl = document.getElementById('manualStepInput');
+    if (manualInputEl && document.getElementById('manualInputModal').classList.contains('active')) {
+      manualInputEl.value = this.currentSteps.toString();
+    }
   }
   
   /**
@@ -470,6 +893,8 @@ class KilometreeApp {
     const statusDot = statusEl.querySelector('.status-dot');
     const statusText = statusEl.querySelector('span');
     
+    if (!statusEl) return; // Defensive check
+    
     statusText.textContent = message;
     
     // Update status dot color based on type
@@ -478,6 +903,8 @@ class KilometreeApp {
       statusDot.style.backgroundColor = 'var(--success)';
     } else if (type === 'paused') {
       statusDot.style.backgroundColor = 'var(--warning)';
+    } else if (type === 'error') {
+      statusDot.style.backgroundColor = 'var(--error)';
     } else {
       statusDot.style.backgroundColor = 'var(--gray-400)';
     }
@@ -497,6 +924,8 @@ class KilometreeApp {
     this.updateMilestoneProgress();
     this.updateWeeklyChallenge();
     this.updateAnalytics();
+    this.updateGoogleFitUI(); // Ensure correct UI is shown based on enabled status
+    this.updateAuthUI(); // Update authentication UI
   }
   
   /**
@@ -977,7 +1406,7 @@ class KilometreeApp {
       const eventCard = document.createElement('div');
       eventCard.className = 'event-card';
       eventCard.innerHTML = `
-        ${event.imageUrl ? `<img src="${event.imageUrl}" alt="${event.title}" class="event-card-image" />` : ''}
+        ${event.imageUrl ? `<img src="${event.imageUrl}" alt="${event.title}" class="event-card-image" />` : `<div class="event-card-image event-placeholder"><i class="fas fa-image"></i></div>`}
         <div class="event-card-content">
           <div class="event-date-time">
             <span class="event-date">${event.date}</span>
@@ -985,6 +1414,7 @@ class KilometreeApp {
           </div>
           <h3 class="event-title">${event.title}</h3>
           <p class="event-description">${event.description}</p>
+          ${event.youtubeEmbedUrl ? this.handleYouTubeEmbed(event.youtubeEmbedUrl) : ''}
           <div class="event-details">
             <span class="event-location">
               <i class="fas fa-map-marker-alt"></i>
@@ -999,6 +1429,165 @@ class KilometreeApp {
   }
   
   /**
+   * Handles potential YouTube video embedding issues by showing an alert or fallback. (This function is new)
+   */
+  handleYouTubeEmbed(embedUrl) {
+    if (!embedUrl) {
+      this.showNotification('YouTube video is unavailable or invalid.', 'warning');
+      return `<div class="youtube-fallback"><i class="fab fa-youtube"></i> Video Unavailable</div>`;
+    } else if (!embedUrl.includes('youtube.com/embed/')) {
+      this.showNotification('Invalid YouTube embed URL.', 'warning');
+      return `<div class="youtube-fallback"><i class="fab fa-youtube"></i> Invalid Video URL</div>`;
+    }
+    return `<iframe src="${embedUrl}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen class="youtube-embed"></iframe>`;
+  }
+
+  // Google Tools Methods
+  toggleGoogleTool(toolName) {
+    const toggle = document.getElementById(`${toolName}Toggle`);
+    if (toggle) {
+      toggle.classList.toggle('active');
+      const isActive = toggle.classList.contains('active');
+      
+      // Store the state
+      localStorage.setItem(`googleTool_${toolName}`, isActive.toString());
+      
+      // Show notification
+      this.showNotification(`${toolName.charAt(0).toUpperCase() + toolName.slice(1)} ${isActive ? 'enabled' : 'disabled'}`, 'success');
+    }
+  }
+
+  async openGoogleAnalytics() {
+    try {
+      if (!this.google) {
+        this.showNotification('Please sign in to Google first', 'warning');
+        return;
+      }
+      
+      // Open Google Analytics or Looker Studio dashboard
+      const config = this.readSettingsForm();
+      if (config.lookerUrl) {
+        window.open(config.lookerUrl, '_blank');
+      } else {
+        this.showNotification('Analytics dashboard URL not configured', 'warning');
+      }
+    } catch (error) {
+      console.error('Error opening analytics:', error);
+      this.showNotification('Failed to open analytics', 'error');
+    }
+  }
+
+  async createGoogleCalendarEvent() {
+    try {
+      if (!this.google) {
+        this.showNotification('Please sign in to Google first', 'warning');
+        return;
+      }
+      
+      const eventTitle = 'Kilometree Activity Session';
+      const eventDescription = `Completed ${this.totalSteps} steps and planted ${this.totalSaplings} trees!`;
+      const startTime = new Date();
+      
+      await this.google.createCalendarEvent({
+        title: eventTitle,
+        description: eventDescription,
+        start: startTime,
+        durationHours: 1
+      });
+      
+      this.showNotification('Calendar event created successfully!', 'success');
+    } catch (error) {
+      console.error('Error creating calendar event:', error);
+      this.showNotification('Failed to create calendar event', 'error');
+    }
+  }
+
+  async syncToGoogleSheets() {
+    try {
+      if (!this.google) {
+        this.showNotification('Please sign in to Google first', 'warning');
+        return;
+      }
+      
+      const today = new Date().toISOString().split('T')[0];
+      const co2Kg = Math.round((this.totalSteps * 0.00004) * 100) / 100;
+      const weeklyKm = Math.round((this.weeklyDistance * 100) / 100);
+      
+      await this.google.appendToSheet({
+        date: today,
+        totalSteps: this.totalSteps,
+        totalSaplings: this.totalSaplings,
+        co2Kg: co2Kg,
+        weeklyKm: weeklyKm
+      });
+      
+      this.showNotification('Data synced to Google Sheets!', 'success');
+    } catch (error) {
+      console.error('Error syncing to sheets:', error);
+      this.showNotification('Failed to sync to Google Sheets', 'error');
+    }
+  }
+
+  async uploadYouTubeVideo(file) {
+    try {
+      if (!this.google) {
+        this.showNotification('Please sign in to Google first', 'warning');
+        return;
+      }
+      
+      const title = `Kilometree Journey - ${new Date().toLocaleDateString()}`;
+      const description = `My environmental impact journey with Kilometree! Steps: ${this.totalSteps}, Trees planted: ${this.totalSaplings}`;
+      
+      await this.google.uploadYouTubeVideo({
+        file: file,
+        title: title,
+        description: description
+      });
+      
+      this.showNotification('Video uploaded to YouTube successfully!', 'success');
+    } catch (error) {
+      console.error('Error uploading video:', error);
+      this.showNotification('Failed to upload video', 'error');
+    }
+  }
+
+  async submitGoogleForm() {
+    try {
+      if (!this.google) {
+        this.showNotification('Please sign in to Google first', 'warning');
+        return;
+      }
+      
+      const userName = this.userProfile?.name || 'Anonymous User';
+      const weeklyKm = Math.round((this.weeklyDistance * 100) / 100);
+      
+      await this.google.submitFormResponse({
+        user: userName,
+        totalSaplings: this.totalSaplings,
+        weeklyKm: weeklyKm
+      });
+      
+      this.showNotification('Feedback submitted successfully!', 'success');
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      this.showNotification('Failed to submit feedback', 'error');
+    }
+  }
+
+  // Initialize Google Tools UI
+  initializeGoogleTools() {
+    // Restore toggle states from localStorage
+    const tools = ['googleFit', 'analytics', 'calendar', 'sheets', 'youtube', 'forms'];
+    tools.forEach(tool => {
+      const isActive = localStorage.getItem(`googleTool_${tool}`) === 'true';
+      const toggle = document.getElementById(`${tool}Toggle`);
+      if (toggle && isActive) {
+        toggle.classList.add('active');
+      }
+    });
+  }
+  
+  /**
    * Saves all relevant application state data to localStorage.
    */
   saveToStorage() {
@@ -1009,10 +1598,18 @@ class KilometreeApp {
     localStorage.setItem('weeklyDistance', this.weeklyDistance.toString());
     localStorage.setItem('dailyData', JSON.stringify(this.dailyData));
     localStorage.setItem('achievements', JSON.stringify(this.achievements));
+    localStorage.setItem('googleFitEnabled', this.googleFitEnabled.toString());
+    localStorage.setItem('useManualInput', this.useManualInput.toString());
+    
+    // Save user profile if available
+    if (this.userProfile) {
+      localStorage.setItem('userProfile', JSON.stringify(this.userProfile));
+    }
   }
 }
 
 // Initialize the Kilometree application once the DOM is fully loaded.
 document.addEventListener('DOMContentLoaded', () => {
+  console.log('Kilometree app initializing...');
   new KilometreeApp();
 });
