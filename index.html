@@ -3,318 +3,348 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Kilometree – Sustainability Through Movement</title>
-  <!-- Bootstrap CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384‑JprkAea1E8+GYBQOXNQfsV82u9ArGQVqh/hivHDnFcp/9yZRkGLtfv0Ro0M0hoOJ" crossorigin="anonymous">
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
-  <!-- Font Awesome Icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-UGjIiFriiTi6YQcmDZNnCrwDPbQQihsMwuvIA57IkP0UyHC9Pw2/Xj31t/gpPtdrdhg+Xp4PY9a5acnJ9WByCQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <!-- Custom CSS -->
-  <link rel="stylesheet" href="assets/css/style.css">
+  <title>Kilometree - Transform Steps into Environmental Impact</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/src/styles/main.css">
 </head>
 <body>
-  <!-- Navigation Bar -->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm fixed-top">
-    <div class="container-fluid">
-      <a class="navbar-brand fw-bold" href="index.html">Kilometree</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ms-auto">
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="index.html">Home</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="achievements.html">Achievements</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="co2.html">CO2</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="leaderboard.html">Leaderboard</a>
-          </li>
-        </ul>
+  <div id="app">
+    <!-- Navigation -->
+    <nav class="navbar">
+      <div class="nav-container">
+        <div class="nav-brand">
+          <div class="brand-icon">🌱</div>
+          <span class="brand-text">Kilometree</span>
+        </div>
+        
+        <div class="nav-menu" id="navMenu">
+          <a href="#home" class="nav-link active" data-section="home">Home</a>
+          <a href="#achievements" class="nav-link" data-section="achievements">Achievements</a>
+          <a href="#leaderboard" class="nav-link" data-section="leaderboard">Leaderboard</a>
+          <a href="#analytics" class="nav-link" data-section="analytics">Analytics</a>
+        </div>
+        
+        <button class="nav-toggle" id="navToggle">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
       </div>
-    </div>
-  </nav>
+    </nav>
 
-  <!-- Hero Section -->
-  <section class="hero d-flex align-items-center justify-content-center text-center">
-    <div class="container">
-      <h1 class="display-5 fw-bold mb-3">Every Step Plants a Tree</h1>
-      <p class="lead mb-4">Transform your daily movement into tangible environmental impact. Track your steps, see your progress and watch our world become greener.</p>
-      <div class="d-flex justify-content-center">
-        <a href="#tracker" class="btn btn-success me-2">Start Tracking</a>
-        <a href="#learn" class="btn btn-outline-light">Learn More</a>
-      </div>
-    </div>
-  </section>
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Home Section -->
+      <section id="home" class="section active">
+        <!-- Hero -->
+        <div class="hero">
+          <div class="hero-content">
+            <h1 class="hero-title">Every Step Plants a Tree</h1>
+            <p class="hero-subtitle">Transform your daily movement into tangible environmental impact</p>
+            <button class="cta-button" id="startTrackingBtn">
+              <span>Start Tracking</span>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+              </svg>
+            </button>
+          </div>
+          <div class="hero-visual">
+            <div class="floating-trees" id="heroTrees"></div>
+          </div>
+        </div>
 
-  <!-- Weekly Challenge Section -->
-  <section id="challenge" class="bg-light py-5">
-    <div class="container">
-      <h2 class="text-center mb-4">This Week's Challenge</h2>
-      <p class="text-center text-muted mb-4">Complete the distance goal before the week ends to earn bonus saplings!</p>
-      <div class="row justify-content-center">
-        <div class="col-12 col-md-8">
-          <div class="card shadow-sm animate-fadeUp">
-            <div class="card-body text-center">
-              <span class="icon-circle mb-2">🏁</span>
-              <h4 class="card-title">Distance Goal</h4>
-              <p class="h5" id="challengeDistance">10 km</p>
-              <div class="progress mb-2" style="height: 1.5rem;">
-                <div id="challengeProgressBar" class="progress-bar bg-warning" role="progressbar" style="width: 0%" aria-valuemin="0" aria-valuemax="100"></div>
-              </div>
-              <small id="challengeLabel">0 / 10 km</small>
+        <!-- Stats Overview -->
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon">👣</div>
+            <div class="stat-content">
+              <div class="stat-value" id="totalStepsDisplay">0</div>
+              <div class="stat-label">Total Steps</div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">🌱</div>
+            <div class="stat-content">
+              <div class="stat-value" id="totalSaplingsDisplay">0</div>
+              <div class="stat-label">Trees Planted</div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">🌍</div>
+            <div class="stat-content">
+              <div class="stat-value" id="co2OffsetDisplay">0 kg</div>
+              <div class="stat-label">CO₂ Offset</div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">🔥</div>
+            <div class="stat-content">
+              <div class="stat-value" id="streakDisplay">0</div>
+              <div class="stat-label">Day Streak</div>
             </div>
           </div>
         </div>
-      </div>
-    </div>
-  </section>
 
-  <!-- Step Tracker Section -->
-  <section id="tracker" class="py-5">
-    <div class="container">
-      <div class="row g-4">
-        <div class="col-12 col-md-6">
-          <div class="card shadow-sm h-100 animate-fadeUp">
-            <div class="card-body text-center">
-              <span class="icon-circle mb-2">👣</span>
-              <h2 class="card-title mb-3">Live Step Counter</h2>
-              <p class="text-muted mb-4">Your movements are the seeds of future forests.</p>
-              <div class="display-1 fw-bold text-success" id="stepCount">0</div>
-              <p>steps walked</p>
-              <div class="h4" id="kmCount">0.00 km</div>
-              <p>distance traveled</p>
-              <div class="h4 text-primary" id="saplingCount">0 saplings</div>
-              <p>tree saplings earned</p>
-              <button id="startButton" class="btn btn-success mt-3 me-2">Start</button>
-              <button id="stopButton" class="btn btn-danger mt-3">Stop</button>
-              <button id="resetButton" class="btn btn-outline-secondary mt-3">Reset Counter</button>
-            </div>
-          </div>
-        </div>
-        <div class="col-12 col-md-6 d-flex">
-          <div class="card shadow-sm flex-fill animate-fadeUp">
-            <div class="card-body">
-                <span class="icon-circle mb-2">🌱</span>
-              <h2 class="card-title mb-3">Sapling Progress</h2>
-              <p class="text-muted">See how close you are to your next planting milestone.</p>
-              <div class="progress mb-2" style="height: 1.5rem;">
-                <div id="saplingProgressBar" class="progress-bar" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="1"></div>
+        <!-- Step Tracker -->
+        <div class="tracker-section">
+          <div class="tracker-card">
+            <div class="tracker-header">
+              <h2>Live Activity Tracker</h2>
+              <div class="tracker-status" id="trackerStatus">
+                <div class="status-dot"></div>
+                <span>Ready to track</span>
               </div>
-              <small id="milestoneLabel">0 / 10 saplings</small>
-              <hr>
-              <div class="row text-center">
-                <div class="col">
-                  <div class="fw-bold" id="totalSteps">0</div>
-                  <small>Total Steps</small>
+            </div>
+            
+            <div class="tracker-display">
+              <div class="current-steps">
+                <div class="steps-count" id="currentSteps">0</div>
+                <div class="steps-label">steps today</div>
+              </div>
+              
+              <div class="tracker-metrics">
+                <div class="metric">
+                  <span class="metric-value" id="currentDistance">0.00 km</span>
+                  <span class="metric-label">Distance</span>
                 </div>
-                <div class="col">
-                  <div class="fw-bold" id="totalKilometers">0.00</div>
-                  <small>Total km</small>
-                </div>
-                <div class="col">
-                  <div class="fw-bold" id="totalSaplings">0</div>
-                  <small>Total Saplings</small>
+                <div class="metric">
+                  <span class="metric-value" id="currentSaplings">0</span>
+                  <span class="metric-label">Saplings Earned</span>
                 </div>
               </div>
             </div>
+            
+            <div class="tracker-controls">
+              <button class="control-btn primary" id="startBtn">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polygon points="5,3 19,12 5,21"/>
+                </svg>
+                Start
+              </button>
+              <button class="control-btn secondary" id="pauseBtn" disabled>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="6" y="4" width="4" height="16"/>
+                  <rect x="14" y="4" width="4" height="16"/>
+                </svg>
+                Pause
+              </button>
+              <button class="control-btn outline" id="saveBtn" disabled>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/>
+                  <polyline points="17,21 17,13 7,13 7,21"/>
+                  <polyline points="7,3 7,8 15,8"/>
+                </svg>
+                Save Session
+              </button>
+            </div>
           </div>
-        </div>
-      </div>
-    </div>
-  </section>
 
-  <!-- Progress Dashboard Section -->
-  <section id="progress" class="bg-light py-5">
-    <div class="container">
-      <h2 class="text-center mb-4">Your Environmental Impact</h2>
-      <div class="row g-4">
-        <div class="col-12 col-lg-4">
-          <div class="card text-center h-100 shadow-sm animate-fadeUp">
-            <div class="card-body">
-              <span class="icon-circle mb-2">🌱</span>
-              <h3 class="card-title">Saplings Planted</h3>
-              <p class="display-4 fw-bold text-success" id="saplingsPlanted">0</p>
-              <p class="text-muted">Cumulative number of saplings donated so far.</p>
-            </div>
-          </div>
-        </div>
-        <div class="col-12 col-lg-4">
-          <div class="card text-center h-100 shadow-sm animate-fadeUp">
-            <div class="card-body">
-              <span class="icon-circle mb-2">🛣</span>
-              <h3 class="card-title">Distance Covered</h3>
-              <p class="display-4 fw-bold text-primary" id="distanceCovered">0.00 km</p>
-              <p class="text-muted">Total kilometres logged by your steps.</p>
-            </div>
-          </div>
-        </div>
-        <div class="col-12 col-lg-4">
-          <div class="card text-center h-100 shadow-sm animate-fadeUp">
-            <div class="card-body">
-              <span class="icon-circle mb-2">🔥</span>
-              <h3 class="card-title">Fitness Streak</h3>
-              <p class="display-4 fw-bold text-warning" id="daysStreak">0</p>
-              <p class="text-muted">Consecutive days of activity recorded.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Upcoming Events Section -->
-  <section id="events" class="py-5">
-    <div class="container">
-      <h2 class="text-center mb-4">Upcoming Planting Events</h2>
-      <p class="text-center text-muted mb-5">Keep track of your next sapling planting dates and community challenges.</p>
-      <div class="row g-4">
-        <div class="col-12 col-md-6 col-lg-4">
-          <div class="card h-100 shadow-sm">
-            <img src="" class="card-img-top event-img" alt="Event 1 placeholder">
-            <div class="card-body">
-              <h5 class="card-title">Community Tree Planting</h5>
-              <p class="card-text">Join fellow students and teachers for a fun day of planting saplings together.</p>
-              <p class="card-text"><small class="text-muted">Date: September 20, 2025</small></p>
-            </div>
-          </div>
-        </div>
-        <div class="col-12 col-md-6 col-lg-4">
-          <div class="card h-100 shadow-sm">
-            <img src="" class="card-img-top event-img" alt="Event 2 placeholder">
-            <div class="card-body">
-              <h5 class="card-title">Milestone Celebration</h5>
-              <p class="card-text">Celebrate reaching 100 saplings with a virtual badge ceremony and recognition.</p>
-              <p class="card-text"><small class="text-muted">Date: October 5, 2025</small></p>
-            </div>
-          </div>
-        </div>
-        <div class="col-12 col-md-6 col-lg-4">
-          <div class="card h-100 shadow-sm">
-            <img src="" class="card-img-top event-img" alt="Event 3 placeholder">
-            <div class="card-body">
-              <h5 class="card-title">End‑of‑Semester Forest Vlog</h5>
-              <p class="card-text">Witness the transformation of your saplings into a thriving forest through a class vlog.</p>
-              <p class="card-text"><small class="text-muted">Date: December 15, 2025</small></p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Awareness Content Section -->
-  <section id="awareness" class="bg-light py-5">
-    <div class="container">
-      <h2 class="text-center mb-4">Awareness & Challenges</h2>
-      <p class="text-center text-muted mb-5">Watch and share our campaign content to inspire others to join the movement.</p>
-      <div class="row g-4">
-        <div class="col-12 col-md-6">
-          <div class="card h-100 shadow-sm">
-            <img src="" class="card-img-top" alt="Challenge placeholder">
-            <div class="card-body">
-              <h5 class="card-title">Eco Challenge of the Week</h5>
-              <p class="card-text">Record yourself completing the weekly eco challenge and share it with your classmates.</p>
-              <button class="btn btn-primary">View Challenge</button>
-            </div>
-          </div>
-        </div>
-        <div class="col-12 col-md-6">
-          <div class="card h-100 shadow-sm">
-            <!-- YouTube placeholder; embed or screenshot here -->
-            <div class="ratio ratio-16x9">
-              <!-- Example YouTube embed of environmental awareness video (can be replaced) -->
-              <iframe src="https://www.youtube.com/embed/0z0dXkN9cvA" title="Environmental Awareness" allowfullscreen></iframe>
-            </div>
-            <div class="card-body">
-              <h5 class="card-title">Planting Day Vlog</h5>
-              <p class="card-text">A short recap of our recent planting day to showcase the impact we’re making.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Virtual Forest Section -->
-  <section id="forest" class="bg-light py-5">
-    <div class="container">
-      <h2 class="text-center mb-4">Your Growing Forest</h2>
-      <p class="text-center text-muted mb-5">Watch your saplings sprout into a virtual forest.  Each tree represents a sapling you’ve earned.</p>
-      <div id="forestGrid" class="d-flex flex-wrap justify-content-center gap-2 animate-fadeUp">
-        <!-- Trees generated via JavaScript -->
-      </div>
-    </div>
-  </section>
-
-  <!-- Analytics Section -->
-  <section id="analytics" class="bg-light py-5">
-    <div class="container">
-      <h2 class="text-center mb-4">Activity Analytics</h2>
-      <p class="text-center text-muted mb-4">Visualise your daily distance and sapling contributions.  This graph updates when you reset your tracker.</p>
-      <div class="row justify-content-center">
-        <div class="col-12 col-md-10">
-          <div class="card shadow-sm animate-fadeUp">
-            <div class="card-body">
-              <canvas id="analyticsChart" height="200"></canvas>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Donation Section -->
-  <section id="donate" class="bg-light py-5">
-    <div class="container">
-      <h2 class="text-center mb-4">Support Tree Planting</h2>
-      <p class="text-center text-muted mb-4">Want to go beyond walking?  Contribute directly to our reforestation partners to plant even more saplings.</p>
-      <div class="row justify-content-center">
-        <div class="col-12 col-md-8">
-          <div class="card shadow-sm animate-fadeUp">
-            <div class="card-body text-center">
-              <span class="icon-circle mb-3">🤲</span>
-              <h4 class="card-title mb-3">Make a Donation</h4>
-              <p class="mb-4">Your donation will be used to plant trees in local communities and offset carbon emissions.  Select an amount and click donate to pledge your support.</p>
-              <div class="d-flex justify-content-center mb-3">
-                <select id="donationAmount" class="form-select w-auto me-2">
-                  <option value="5">₱5</option>
-                  <option value="10">₱10</option>
-                  <option value="25">₱25</option>
-                  <option value="50">₱50</option>
-                  <option value="100">₱100</option>
-                </select>
-                <button id="donateButton" class="btn btn-success">Donate</button>
+          <!-- Progress Card -->
+          <div class="progress-card">
+            <h3>Progress to Next Milestone</h3>
+            <div class="progress-display">
+              <div class="progress-bar">
+                <div class="progress-fill" id="milestoneProgress"></div>
               </div>
-              <small class="text-muted">(Donations are simulated in this prototype.)</small>
+              <div class="progress-text">
+                <span id="progressText">0 / 10 saplings</span>
+                <span id="progressPercent">0%</span>
+              </div>
             </div>
+            <div class="milestone-info">
+              <span>Next reward: <strong id="nextReward">Bronze Badge</strong></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Weekly Challenge -->
+        <div class="challenge-section">
+          <div class="challenge-card">
+            <div class="challenge-header">
+              <div class="challenge-icon">🏆</div>
+              <div>
+                <h3>Weekly Challenge</h3>
+                <p>Complete 10km this week for bonus rewards</p>
+              </div>
+            </div>
+            <div class="challenge-progress">
+              <div class="challenge-bar">
+                <div class="challenge-fill" id="challengeProgress"></div>
+              </div>
+              <div class="challenge-stats">
+                <span id="challengeDistance">0.0 / 10.0 km</span>
+                <span id="challengeTimeLeft">6 days left</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Virtual Forest -->
+        <div class="forest-section">
+          <h2>Your Growing Forest</h2>
+          <p>Each tree represents a sapling you've earned through your activity</p>
+          <div class="forest-grid" id="forestGrid">
+            <!-- Trees will be generated here -->
+          </div>
+        </div>
+      </section>
+
+      <!-- Achievements Section -->
+      <section id="achievements" class="section">
+        <div class="section-header">
+          <h1>Achievements & Badges</h1>
+          <p>Unlock rewards as you reach new milestones</p>
+        </div>
+        
+        <div class="achievements-grid">
+          <div class="achievement-card" data-achievement="bronze">
+            <div class="achievement-icon">🥉</div>
+            <div class="achievement-content">
+              <h3>Bronze Planter</h3>
+              <p>Plant your first 10 saplings</p>
+              <div class="achievement-progress">
+                <div class="progress-bar small">
+                  <div class="progress-fill" id="bronzeProgress"></div>
+                </div>
+                <span id="bronzeText">0 / 10</span>
+              </div>
+            </div>
+            <div class="achievement-status" id="bronzeStatus">🔒</div>
+          </div>
+          
+          <div class="achievement-card" data-achievement="silver">
+            <div class="achievement-icon">🥈</div>
+            <div class="achievement-content">
+              <h3>Silver Planter</h3>
+              <p>Reach 25 saplings planted</p>
+              <div class="achievement-progress">
+                <div class="progress-bar small">
+                  <div class="progress-fill" id="silverProgress"></div>
+                </div>
+                <span id="silverText">0 / 25</span>
+              </div>
+            </div>
+            <div class="achievement-status" id="silverStatus">🔒</div>
+          </div>
+          
+          <div class="achievement-card" data-achievement="gold">
+            <div class="achievement-icon">🥇</div>
+            <div class="achievement-content">
+              <h3>Gold Planter</h3>
+              <p>Plant 50 saplings total</p>
+              <div class="achievement-progress">
+                <div class="progress-bar small">
+                  <div class="progress-fill" id="goldProgress"></div>
+                </div>
+                <span id="goldText">0 / 50</span>
+              </div>
+            </div>
+            <div class="achievement-status" id="goldStatus">🔒</div>
+          </div>
+          
+          <div class="achievement-card" data-achievement="platinum">
+            <div class="achievement-icon">💎</div>
+            <div class="achievement-content">
+              <h3>Platinum Planter</h3>
+              <p>Achieve 100 saplings milestone</p>
+              <div class="achievement-progress">
+                <div class="progress-bar small">
+                  <div class="progress-fill" id="platinumProgress"></div>
+                </div>
+                <span id="platinumText">0 / 100</span>
+              </div>
+            </div>
+            <div class="achievement-status" id="platinumStatus">🔒</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Leaderboard Section -->
+      <section id="leaderboard" class="section">
+        <div class="section-header">
+          <h1>Leaderboard</h1>
+          <p>See how you rank among other eco-warriors</p>
+        </div>
+        
+        <div class="leaderboard-container">
+          <div class="leaderboard-filters">
+            <button class="filter-btn active" data-filter="weekly">This Week</button>
+            <button class="filter-btn" data-filter="monthly">This Month</button>
+            <button class="filter-btn" data-filter="alltime">All Time</button>
+          </div>
+          
+          <div class="leaderboard-list" id="leaderboardList">
+            <!-- Leaderboard entries will be generated here -->
+          </div>
+        </div>
+      </section>
+
+      <!-- Analytics Section -->
+      <section id="analytics" class="section">
+        <div class="section-header">
+          <h1>Activity Analytics</h1>
+          <p>Track your progress and environmental impact over time</p>
+        </div>
+        
+        <div class="analytics-grid">
+          <div class="analytics-card">
+            <h3>Daily Activity</h3>
+            <canvas id="dailyChart" width="400" height="200"></canvas>
+          </div>
+          
+          <div class="analytics-card">
+            <h3>Environmental Impact</h3>
+            <div class="impact-metrics">
+              <div class="impact-item">
+                <div class="impact-icon">🌱</div>
+                <div class="impact-data">
+                  <span class="impact-value" id="totalTreesAnalytics">0</span>
+                  <span class="impact-label">Trees Planted</span>
+                </div>
+              </div>
+              <div class="impact-item">
+                <div class="impact-icon">🌍</div>
+                <div class="impact-data">
+                  <span class="impact-value" id="co2SavedAnalytics">0 kg</span>
+                  <span class="impact-label">CO₂ Offset</span>
+                </div>
+              </div>
+              <div class="impact-item">
+                <div class="impact-icon">👥</div>
+                <div class="impact-data">
+                  <span class="impact-value" id="communityRankAnalytics">#-</span>
+                  <span class="impact-label">Community Rank</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Notification System -->
+    <div class="notification-container" id="notifications"></div>
+
+    <!-- Achievement Modal -->
+    <div class="modal-overlay" id="achievementModal">
+      <div class="modal-content achievement-modal">
+        <div class="modal-header">
+          <h2>Achievement Unlocked!</h2>
+          <button class="modal-close" id="closeAchievementModal">×</button>
+        </div>
+        <div class="modal-body">
+          <div class="achievement-celebration">
+            <div class="achievement-icon-large" id="achievementIcon">🏆</div>
+            <h3 id="achievementTitle">Achievement Title</h3>
+            <p id="achievementDescription">Achievement description</p>
           </div>
         </div>
       </div>
     </div>
-  </section>
+  </div>
 
-  <!-- Footer -->
-  <footer class="bg-primary text-white text-center py-3 mt-5">
-    <div class="container">
-      <p class="mb-0">&copy; <span id="year"></span> Kilometree. All rights reserved.</p>
-    </div>
-  </footer>
-
-  <!-- Bootstrap JS Bundle -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384‑rETc6DN6vIC0SPk54m5/y3GkD1MwMyN5kBFvLN4kBnWYfU1kRc+kCV8eNKM43I2V" crossorigin="anonymous"></script>
-  <!-- Chart.js for analytics -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-  <!-- Custom JS -->
-  <script src="assets/js/app.js"></script>
-  <script>
-    // Update year in footer
-    document.getElementById('year').textContent = new Date().getFullYear();
-  </script>
+  <script type="module" src="/src/main.js"></script>
 </body>
 </html>
