@@ -7,6 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6TaYFAeBU6prgXfXSjx50VXAho/KqgB+hJpJeWz70yptgHA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="/src/styles/main.css">
 </head>
 <body>
@@ -15,7 +16,7 @@
     <nav class="navbar">
       <div class="nav-container">
         <div class="nav-brand">
-          <div class="brand-icon">🌱</div>
+          <div class="brand-icon"><i class="fas fa-seedling"></i></div>
           <span class="brand-text">Kilometree</span>
         </div>
         
@@ -24,6 +25,8 @@
           <a href="#achievements" class="nav-link" data-section="achievements">Achievements</a>
           <a href="#leaderboard" class="nav-link" data-section="leaderboard">Leaderboard</a>
           <a href="#analytics" class="nav-link" data-section="analytics">Analytics</a>
+          <a href="#donate" class="nav-link" data-section="donate">Donate</a>
+          <a href="#events" class="nav-link" data-section="events">Events</a>
         </div>
         
         <button class="nav-toggle" id="navToggle">
@@ -45,12 +48,12 @@
             <p class="hero-subtitle">Transform your daily movement into tangible environmental impact</p>
             <button class="cta-button" id="startTrackingBtn">
               <span>Start Tracking</span>
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M5 12h14M12 5l7 7-7 7"/>
-              </svg>
+              <i class="fas fa-arrow-right"></i>
             </button>
           </div>
           <div class="hero-visual">
+            <!-- TODO: Replace with a compelling hero image, e.g., a stylized tree or a nature scene -->
+            <img src="assets/images/hero-placeholder.png" alt="Green forest illustration" style="max-width: 100%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-md);" />
             <div class="floating-trees" id="heroTrees"></div>
           </div>
         </div>
@@ -58,28 +61,28 @@
         <!-- Stats Overview -->
         <div class="stats-grid">
           <div class="stat-card">
-            <div class="stat-icon">👣</div>
+            <div class="stat-icon"><i class="fas fa-walking"></i></div>
             <div class="stat-content">
               <div class="stat-value" id="totalStepsDisplay">0</div>
               <div class="stat-label">Total Steps</div>
             </div>
           </div>
           <div class="stat-card">
-            <div class="stat-icon">🌱</div>
+            <div class="stat-icon"><i class="fas fa-tree"></i></div>
             <div class="stat-content">
               <div class="stat-value" id="totalSaplingsDisplay">0</div>
               <div class="stat-label">Trees Planted</div>
             </div>
           </div>
           <div class="stat-card">
-            <div class="stat-icon">🌍</div>
+            <div class="stat-icon"><i class="fas fa-cloud"></i></div>
             <div class="stat-content">
               <div class="stat-value" id="co2OffsetDisplay">0 kg</div>
               <div class="stat-label">CO₂ Offset</div>
             </div>
           </div>
           <div class="stat-card">
-            <div class="stat-icon">🔥</div>
+            <div class="stat-icon"><i class="fas fa-fire"></i></div>
             <div class="stat-content">
               <div class="stat-value" id="streakDisplay">0</div>
               <div class="stat-label">Day Streak</div>
@@ -118,24 +121,15 @@
             
             <div class="tracker-controls">
               <button class="control-btn primary" id="startBtn">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <polygon points="5,3 19,12 5,21"/>
-                </svg>
+                <i class="fas fa-play"></i>
                 Start
               </button>
               <button class="control-btn secondary" id="pauseBtn" disabled>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <rect x="6" y="4" width="4" height="16"/>
-                  <rect x="14" y="4" width="4" height="16"/>
-                </svg>
+                <i class="fas fa-pause"></i>
                 Pause
               </button>
               <button class="control-btn outline" id="saveBtn" disabled>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/>
-                  <polyline points="17,21 17,13 7,13 7,21"/>
-                  <polyline points="7,3 7,8 15,8"/>
-                </svg>
+                <i class="fas fa-save"></i>
                 Save Session
               </button>
             </div>
@@ -163,7 +157,7 @@
         <div class="challenge-section">
           <div class="challenge-card">
             <div class="challenge-header">
-              <div class="challenge-icon">🏆</div>
+              <div class="challenge-icon"><i class="fas fa-trophy"></i></div>
               <div>
                 <h3>Weekly Challenge</h3>
                 <p>Complete 10km this week for bonus rewards</p>
@@ -200,7 +194,7 @@
         
         <div class="achievements-grid">
           <div class="achievement-card" data-achievement="bronze">
-            <div class="achievement-icon">🥉</div>
+            <div class="achievement-icon"><i class="fas fa-medal"></i></div>
             <div class="achievement-content">
               <h3>Bronze Planter</h3>
               <p>Plant your first 10 saplings</p>
@@ -215,7 +209,7 @@
           </div>
           
           <div class="achievement-card" data-achievement="silver">
-            <div class="achievement-icon">🥈</div>
+            <div class="achievement-icon"><i class="fas fa-medal"></i></div>
             <div class="achievement-content">
               <h3>Silver Planter</h3>
               <p>Reach 25 saplings planted</p>
@@ -230,7 +224,7 @@
           </div>
           
           <div class="achievement-card" data-achievement="gold">
-            <div class="achievement-icon">🥇</div>
+            <div class="achievement-icon"><i class="fas fa-medal"></i></div>
             <div class="achievement-content">
               <h3>Gold Planter</h3>
               <p>Plant 50 saplings total</p>
@@ -245,7 +239,7 @@
           </div>
           
           <div class="achievement-card" data-achievement="platinum">
-            <div class="achievement-icon">💎</div>
+            <div class="achievement-icon"><i class="fas fa-medal"></i></div>
             <div class="achievement-content">
               <h3>Platinum Planter</h3>
               <p>Achieve 100 saplings milestone</p>
@@ -322,6 +316,49 @@
           </div>
         </div>
       </section>
+
+      <!-- Donation Panel Section -->
+      <section id="donate" class="section">
+        <div class="section-header">
+          <h1>Make a Donation</h1>
+          <p>Your contribution helps plant more trees and heal our planet.</p>
+        </div>
+
+        <div class="donation-card">
+          <div class="donation-content">
+            <p class="donation-intro">Choose an amount to help us grow our forests. Every sapling counts!</p>
+            <div class="donation-form">
+              <div class="form-group">
+                <label for="donationAmount">Donation Amount (PHP)</label>
+                <select id="donationAmount" class="form-select">
+                  <option value="50">₱50 - Plant 1 Tree</option>
+                  <option value="100">₱100 - Plant 2 Trees</option>
+                  <option value="250">₱250 - Plant 5 Trees</option>
+                  <option value="500">₱500 - Plant 10 Trees</option>
+                  <option value="1000">₱1000 - Plant 20 Trees</option>
+                </select>
+              </div>
+              <button class="cta-button" id="donateButton">
+                <span>Donate Now</span>
+                <i class="fas fa-hand-holding-usd"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Upcoming Events Section -->
+      <section id="events" class="section">
+        <div class="section-header">
+          <h1>Upcoming Events</h1>
+          <p>Join us for tree planting drives and community celebrations!</p>
+        </div>
+
+        <div class="events-grid" id="eventsGrid">
+          <!-- Event cards will be generated here -->
+        </div>
+      </section>
+
     </main>
 
     <!-- Notification System -->
@@ -336,7 +373,7 @@
         </div>
         <div class="modal-body">
           <div class="achievement-celebration">
-            <div class="achievement-icon-large" id="achievementIcon">🏆</div>
+            <div class="achievement-icon-large" id="achievementIcon"><i class="fas fa-trophy"></i></div>
             <h3 id="achievementTitle">Achievement Title</h3>
             <p id="achievementDescription">Achievement description</p>
           </div>

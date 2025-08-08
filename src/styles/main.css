@@ -6,30 +6,30 @@
 }
 
 :root {
-  /* Colors */
-  --primary: #22c55e;
-  --primary-dark: #16a34a;
-  --primary-light: #86efac;
-  --secondary: #f0fdf4;
-  --accent: #fbbf24;
-  --success: #10b981;
-  --warning: #f59e0b;
-  --error: #ef4444;
+  /* Color Palette - Defined using modern, eco-friendly shades. */
+  --primary: #22c55e; /* Vibrant Green - Main accent */
+  --primary-dark: #16a34a; /* Darker Green - For hover states and deeper elements */
+  --primary-light: #86efac; /* Lighter Green - For subtle backgrounds */
+  --secondary: #f0fdf4; /* Very Light Green/Off-white - Subtle backgrounds, card elements */
+  --accent: #fbbf24; /* Golden Yellow - For highlights, challenges, warnings */
+  --success: #10b981; /* Teal Green - Success messages */
+  --warning: #f59e0b; /* Orange - Warning messages */
+  --error: #ef4444; /* Red - Error messages */
   
-  /* Neutrals */
+  /* Neutral Palette - For text, backgrounds, and borders. */
   --white: #ffffff;
-  --gray-50: #f9fafb;
+  --gray-50: #f9fafb; /* Lightest gray - almost white */
   --gray-100: #f3f4f6;
   --gray-200: #e5e7eb;
-  --gray-300: #d1d5db;
+  --gray-300: #d1d5db; /* Light gray - borders */
   --gray-400: #9ca3af;
-  --gray-500: #6b7280;
-  --gray-600: #4b5563;
+  --gray-500: #6b7280; /* Medium gray - secondary text */
+  --gray-600: #4b5563; /* Darker gray - primary text */
   --gray-700: #374151;
-  --gray-800: #1f2937;
-  --gray-900: #111827;
+  --gray-800: #1f2937; /* Very dark gray - headings */
+  --gray-900: #111827; /* Near black */
   
-  /* Typography */
+  /* Typography Scale - Based on Inter font for a modern and clean look. */
   --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-size-xs: 0.75rem;
   --font-size-sm: 0.875rem;
@@ -40,7 +40,7 @@
   --font-size-3xl: 1.875rem;
   --font-size-4xl: 2.25rem;
   
-  /* Spacing */
+  /* Spacing Scale - Consistent vertical and horizontal rhythm. */
   --space-1: 0.25rem;
   --space-2: 0.5rem;
   --space-3: 0.75rem;
@@ -53,57 +53,58 @@
   --space-16: 4rem;
   --space-20: 5rem;
   
-  /* Shadows */
+  /* Shadow System - Adds depth and hierarchy to UI elements. */
   --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
   --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
   --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
   --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
   --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
   
-  /* Border Radius */
+  /* Border Radius Scale - For rounded corners, giving a soft, modern feel. */
   --radius-sm: 0.375rem;
   --radius: 0.5rem;
   --radius-md: 0.75rem;
   --radius-lg: 1rem;
   --radius-xl: 1.5rem;
-  --radius-full: 9999px;
+  --radius-full: 9999px; /* For perfect circles/pills */
   
-  /* Transitions */
-  --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  --transition-slow: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  /* Transition Properties - For smooth UI interactions. */
+  --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); /* Fast transition */
+  --transition-slow: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); /* Slightly slower transition */
 }
 
+/* Base Body Styles - Sets default font, colors, and enables font smoothing for a crisp look. */
 body {
   font-family: var(--font-family);
   font-size: var(--font-size-base);
   line-height: 1.6;
   color: var(--gray-800);
   background-color: var(--gray-50);
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased; /* For smoother font rendering on WebKit browsers */
+  -moz-osx-font-smoothing: grayscale; /* For smoother font rendering on Firefox */
 }
 
-/* Navigation */
+/* Navigation Bar - Fixed at the top, with a translucent background for modern feel. */
 .navbar {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px); /* Frosted glass effect */
   border-bottom: 1px solid var(--gray-200);
   z-index: 1000;
   transition: var(--transition);
 }
 
 .nav-container {
-  max-width: 1200px;
+  max-width: 1200px; /* Limits content width on larger screens */
   margin: 0 auto;
   padding: 0 var(--space-6);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 4rem;
+  height: 4rem; /* Fixed height for the navbar */
 }
 
 .nav-brand {
@@ -123,6 +124,24 @@ body {
 .nav-menu {
   display: flex;
   gap: var(--space-8);
+
+  /* Mobile Navigation Menu - Hidden by default, slides in from top. */
+  position: fixed;
+  top: 4rem; /* Below the navbar */
+  left: 0;
+  right: 0;
+  background: var(--white);
+  flex-direction: column;
+  padding: var(--space-6);
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-100%); /* Hidden initially */
+  transition: var(--transition); /* Smooth slide animation */
+  gap: var(--space-4); /* Spacing between nav links in mobile menu */
+  z-index: 999; /* Below modal, above other content */
+}
+
+.nav-menu.active {
+  transform: translateY(0); /* Show mobile menu */
 }
 
 .nav-link {
@@ -133,6 +152,7 @@ body {
   border-radius: var(--radius);
   transition: var(--transition);
   position: relative;
+  text-align: center; /* Center links in mobile menu */
 }
 
 .nav-link:hover,
@@ -142,13 +162,14 @@ body {
 }
 
 .nav-toggle {
-  display: none;
+  display: flex; /* Always show hamburger on mobile-only design */
   flex-direction: column;
   gap: 4px;
   background: none;
   border: none;
   cursor: pointer;
   padding: var(--space-2);
+  z-index: 1001; /* Ensure toggle is clickable above menu */
 }
 
 .nav-toggle span {
@@ -158,68 +179,70 @@ body {
   transition: var(--transition);
 }
 
-/* Main Content */
+/* Main Content Area */
 .main-content {
-  margin-top: 4rem;
-  min-height: calc(100vh - 4rem);
+  margin-top: 4rem; /* Offset for fixed navbar */
+  min-height: calc(100vh - 4rem); /* Ensure content fills remaining viewport */
 }
 
 .section {
-  display: none;
-  padding: var(--space-8) var(--space-6);
-  max-width: 1200px;
+  display: none; /* Sections are hidden by default */
+  padding: var(--space-6) var(--space-4); /* Mobile-first padding */
+  max-width: 1200px; /* Max width for content within sections */
   margin: 0 auto;
 }
 
 .section.active {
-  display: block;
+  display: block; /* Show active section */
 }
 
 .section-header {
   text-align: center;
-  margin-bottom: var(--space-12);
+  margin-bottom: var(--space-10); /* Adjusted for mobile */
 }
 
 .section-header h1 {
-  font-size: var(--font-size-4xl);
+  font-size: var(--font-size-3xl); /* Adjusted for mobile */
   font-weight: 700;
   color: var(--gray-900);
-  margin-bottom: var(--space-4);
+  margin-bottom: var(--space-3); /* Adjusted for mobile */
 }
 
 .section-header p {
-  font-size: var(--font-size-lg);
+  font-size: var(--font-size-base); /* Adjusted for mobile */
   color: var(--gray-600);
   max-width: 600px;
   margin: 0 auto;
 }
 
-/* Hero Section */
+/* Hero Section - Designed for a prominent initial view. */
 .hero {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: var(--space-12);
+  display: flex; /* Changed to flex for mobile-first column layout */
+  flex-direction: column; /* Stacks content vertically */
+  gap: var(--space-8); /* Adjusted for mobile */
   align-items: center;
-  min-height: 80vh;
-  margin-bottom: var(--space-16);
+  min-height: calc(100vh - 8rem); /* Adjust min-height for mobile to fill screen */
+  margin-bottom: var(--space-12); /* Adjusted for mobile */
+  text-align: center; /* Center text for mobile */
 }
 
 .hero-content {
-  max-width: 500px;
+  max-width: 100%; /* Full width on mobile */
+  padding: 0 var(--space-4); /* Add horizontal padding */
 }
 
 .hero-title {
-  font-size: var(--font-size-4xl);
+  font-size: var(--font-size-3xl); /* Adjusted for mobile */
   font-weight: 700;
   color: var(--gray-900);
-  margin-bottom: var(--space-6);
+  margin-bottom: var(--space-4); /* Adjusted for mobile */
   line-height: 1.2;
 }
 
 .hero-subtitle {
-  font-size: var(--font-size-xl);
+  font-size: var(--font-size-lg); /* Adjusted for mobile */
   color: var(--gray-600);
-  margin-bottom: var(--space-8);
+  margin-bottom: var(--space-6); /* Adjusted for mobile */
   line-height: 1.5;
 }
 
@@ -230,9 +253,9 @@ body {
   background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
   color: var(--white);
   border: none;
-  padding: var(--space-4) var(--space-8);
+  padding: var(--space-3) var(--space-6); /* Adjusted for mobile */
   border-radius: var(--radius-lg);
-  font-size: var(--font-size-lg);
+  font-size: var(--font-size-base); /* Adjusted for mobile */
   font-weight: 600;
   cursor: pointer;
   transition: var(--transition);
@@ -246,7 +269,8 @@ body {
 
 .hero-visual {
   position: relative;
-  height: 400px;
+  height: 250px; /* Adjusted for mobile */
+  width: 100%; /* Ensure it takes full width */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -254,64 +278,66 @@ body {
 
 .floating-trees {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: var(--space-4);
+  grid-template-columns: repeat(3, 1fr); /* Adjusted for mobile */
+  gap: var(--space-3); /* Adjusted for mobile */
   animation: float 6s ease-in-out infinite;
 }
 
 .floating-trees .tree {
-  font-size: var(--font-size-3xl);
+  font-size: var(--font-size-2xl); /* Adjusted for mobile */
   animation: bounce 2s ease-in-out infinite;
   animation-delay: calc(var(--i) * 0.2s);
 }
 
 @keyframes float {
   0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-20px); }
+  50% { transform: translateY(-10px); } /* Adjusted for mobile */
 }
 
 @keyframes bounce {
   0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.1); }
+  50% { transform: scale(1.05); } /* Adjusted for mobile */
 }
 
-/* Stats Grid */
+/* Stats Grid - Displays key metrics in an organized grid. */
 .stats-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: var(--space-6);
-  margin-bottom: var(--space-16);
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Adjusted for mobile */
+  gap: var(--space-4); /* Adjusted for mobile */
+  margin-bottom: var(--space-12); /* Adjusted for mobile */
 }
 
 .stat-card {
   background: var(--white);
-  border-radius: var(--radius-xl);
-  padding: var(--space-8);
+  border-radius: var(--radius-lg); /* Adjusted for mobile */
+  padding: var(--space-6); /* Adjusted for mobile */
   box-shadow: var(--shadow);
   display: flex;
-  align-items: center;
-  gap: var(--space-6);
+  flex-direction: column; /* Stack content vertically */
+  align-items: center; /* Center content */
+  gap: var(--space-4); /* Adjusted for mobile */
   transition: var(--transition);
+  text-align: center; /* Center text */
 }
 
 .stat-card:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-lg);
+  transform: translateY(-2px); /* Adjusted for mobile */
+  box-shadow: var(--shadow-md); /* Adjusted for mobile */
 }
 
 .stat-icon {
-  font-size: var(--font-size-3xl);
-  width: 60px;
-  height: 60px;
+  font-size: var(--font-size-2xl); /* Adjusted for mobile */
+  width: 50px; /* Adjusted for mobile */
+  height: 50px; /* Adjusted for mobile */
   display: flex;
   align-items: center;
   justify-content: center;
   background: var(--secondary);
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-md); /* Adjusted for mobile */
 }
 
 .stat-value {
-  font-size: var(--font-size-2xl);
+  font-size: var(--font-size-xl); /* Adjusted for mobile */
   font-weight: 700;
   color: var(--gray-900);
   margin-bottom: var(--space-1);
@@ -323,19 +349,19 @@ body {
   font-weight: 500;
 }
 
-/* Tracker Section */
+/* Live Activity Tracker Section - Focuses on real-time step tracking. */
 .tracker-section {
-  display: grid;
-  grid-template-columns: 2fr 1fr;
-  gap: var(--space-8);
-  margin-bottom: var(--space-16);
+  display: flex; /* Changed to flex for mobile-first column layout */
+  flex-direction: column; /* Stack content vertically */
+  gap: var(--space-6); /* Adjusted for mobile */
+  margin-bottom: var(--space-12); /* Adjusted for mobile */
 }
 
 .tracker-card,
 .progress-card {
   background: var(--white);
-  border-radius: var(--radius-xl);
-  padding: var(--space-8);
+  border-radius: var(--radius-lg); /* Adjusted for mobile */
+  padding: var(--space-6); /* Adjusted for mobile */
   box-shadow: var(--shadow);
 }
 
@@ -343,11 +369,11 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: var(--space-8);
+  margin-bottom: var(--space-6); /* Adjusted for mobile */
 }
 
 .tracker-header h2 {
-  font-size: var(--font-size-2xl);
+  font-size: var(--font-size-xl); /* Adjusted for mobile */
   font-weight: 600;
   color: var(--gray-900);
 }
@@ -375,30 +401,30 @@ body {
 
 .tracker-display {
   text-align: center;
-  margin-bottom: var(--space-8);
+  margin-bottom: var(--space-6); /* Adjusted for mobile */
 }
 
 .current-steps {
-  margin-bottom: var(--space-6);
+  margin-bottom: var(--space-4); /* Adjusted for mobile */
 }
 
 .steps-count {
-  font-size: 4rem;
+  font-size: 3rem; /* Adjusted for mobile */
   font-weight: 700;
   color: var(--primary-dark);
   line-height: 1;
 }
 
 .steps-label {
-  font-size: var(--font-size-lg);
+  font-size: var(--font-size-base); /* Adjusted for mobile */
   color: var(--gray-600);
-  margin-top: var(--space-2);
+  margin-top: var(--space-1); /* Adjusted for mobile */
 }
 
 .tracker-metrics {
   display: flex;
   justify-content: center;
-  gap: var(--space-8);
+  gap: var(--space-6); /* Adjusted for mobile */
 }
 
 .metric {
@@ -407,19 +433,20 @@ body {
 
 .metric-value {
   display: block;
-  font-size: var(--font-size-xl);
+  font-size: var(--font-size-base); /* Adjusted for mobile */
   font-weight: 600;
   color: var(--gray-900);
 }
 
 .metric-label {
-  font-size: var(--font-size-sm);
+  font-size: var(--font-size-xs); /* Adjusted for mobile */
   color: var(--gray-500);
 }
 
 .tracker-controls {
   display: flex;
-  gap: var(--space-4);
+  flex-wrap: wrap; /* Allow buttons to wrap */
+  gap: var(--space-3); /* Adjusted for mobile */
   justify-content: center;
 }
 
@@ -427,13 +454,15 @@ body {
   display: inline-flex;
   align-items: center;
   gap: var(--space-2);
-  padding: var(--space-3) var(--space-6);
+  padding: var(--space-3) var(--space-4); /* Adjusted for mobile */
   border-radius: var(--radius);
   font-weight: 500;
   cursor: pointer;
   transition: var(--transition);
   border: none;
   font-size: var(--font-size-sm);
+  flex: 1; /* Make buttons take equal width */
+  justify-content: center; /* Center content in buttons */
 }
 
 .control-btn.primary {
@@ -469,29 +498,29 @@ body {
   cursor: not-allowed;
 }
 
-/* Progress Card */
+/* Progress Card - Visualizes progress towards milestones. */
 .progress-card h3 {
-  font-size: var(--font-size-xl);
+  font-size: var(--font-size-base); /* Adjusted for mobile */
   font-weight: 600;
   color: var(--gray-900);
-  margin-bottom: var(--space-6);
+  margin-bottom: var(--space-4); /* Adjusted for mobile */
 }
 
 .progress-display {
-  margin-bottom: var(--space-6);
+  margin-bottom: var(--space-4); /* Adjusted for mobile */
 }
 
 .progress-bar {
   width: 100%;
-  height: 12px;
+  height: 10px; /* Adjusted for mobile */
   background-color: var(--gray-200);
   border-radius: var(--radius-full);
   overflow: hidden;
-  margin-bottom: var(--space-3);
+  margin-bottom: var(--space-2); /* Adjusted for mobile */
 }
 
 .progress-bar.small {
-  height: 8px;
+  height: 6px; /* Adjusted for mobile */
 }
 
 .progress-fill {
@@ -504,56 +533,57 @@ body {
 .progress-text {
   display: flex;
   justify-content: space-between;
-  font-size: var(--font-size-sm);
+  font-size: var(--font-size-xs); /* Adjusted for mobile */
   color: var(--gray-600);
 }
 
 .milestone-info {
-  font-size: var(--font-size-sm);
+  font-size: var(--font-size-xs); /* Adjusted for mobile */
   color: var(--gray-600);
 }
 
-/* Challenge Section */
+/* Weekly Challenge Section - Encourages consistent activity. */
 .challenge-section {
-  margin-bottom: var(--space-16);
+  margin-bottom: var(--space-12); /* Adjusted for mobile */
 }
 
 .challenge-card {
   background: linear-gradient(135deg, var(--accent) 0%, #f59e0b 100%);
   color: var(--white);
-  border-radius: var(--radius-xl);
-  padding: var(--space-8);
+  border-radius: var(--radius-lg); /* Adjusted for mobile */
+  padding: var(--space-6); /* Adjusted for mobile */
   box-shadow: var(--shadow-lg);
 }
 
 .challenge-header {
   display: flex;
   align-items: center;
-  gap: var(--space-4);
-  margin-bottom: var(--space-6);
+  gap: var(--space-3); /* Adjusted for mobile */
+  margin-bottom: var(--space-4); /* Adjusted for mobile */
 }
 
 .challenge-icon {
-  font-size: var(--font-size-3xl);
+  font-size: var(--font-size-2xl); /* Adjusted for mobile */
 }
 
 .challenge-header h3 {
-  font-size: var(--font-size-xl);
+  font-size: var(--font-size-lg); /* Adjusted for mobile */
   font-weight: 600;
   margin-bottom: var(--space-1);
 }
 
 .challenge-header p {
   opacity: 0.9;
+  font-size: var(--font-size-sm); /* Adjusted for mobile */
 }
 
 .challenge-bar {
   width: 100%;
-  height: 8px;
+  height: 6px; /* Adjusted for mobile */
   background-color: rgba(255, 255, 255, 0.3);
   border-radius: var(--radius-full);
   overflow: hidden;
-  margin-bottom: var(--space-3);
+  margin-bottom: var(--space-2); /* Adjusted for mobile */
 }
 
 .challenge-fill {
@@ -566,45 +596,45 @@ body {
 .challenge-stats {
   display: flex;
   justify-content: space-between;
-  font-size: var(--font-size-sm);
+  font-size: var(--font-size-xs); /* Adjusted for mobile */
   opacity: 0.9;
 }
 
-/* Forest Section */
+/* Virtual Forest Section - Visual representation of planted trees. */
 .forest-section {
-  margin-bottom: var(--space-16);
+  margin-bottom: var(--space-12); /* Adjusted for mobile */
   text-align: center;
 }
 
 .forest-section h2 {
-  font-size: var(--font-size-3xl);
+  font-size: var(--font-size-2xl); /* Adjusted for mobile */
   font-weight: 700;
   color: var(--gray-900);
-  margin-bottom: var(--space-4);
+  margin-bottom: var(--space-3); /* Adjusted for mobile */
 }
 
 .forest-section p {
-  font-size: var(--font-size-lg);
+  font-size: var(--font-size-base); /* Adjusted for mobile */
   color: var(--gray-600);
-  margin-bottom: var(--space-8);
+  margin-bottom: var(--space-6); /* Adjusted for mobile */
 }
 
 .forest-grid {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: var(--space-2);
-  max-width: 800px;
+  gap: var(--space-1); /* Adjusted for mobile */
+  max-width: 100%; /* Ensure full width on mobile */
   margin: 0 auto;
-  padding: var(--space-8);
+  padding: var(--space-6); /* Adjusted for mobile */
   background: var(--secondary);
-  border-radius: var(--radius-xl);
-  min-height: 200px;
+  border-radius: var(--radius-lg); /* Adjusted for mobile */
+  min-height: 150px; /* Adjusted for mobile */
   align-items: center;
 }
 
 .forest-tree {
-  font-size: var(--font-size-2xl);
+  font-size: var(--font-size-xl); /* Adjusted for mobile */
   animation: growIn 0.5s ease-out;
 }
 
@@ -619,29 +649,29 @@ body {
   }
 }
 
-/* Achievements Section */
+/* Achievements Section - Displays badges and progress towards them. */
 .achievements-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: var(--space-6);
+  grid-template-columns: 1fr; /* Force single column on mobile */
+  gap: var(--space-4); /* Adjusted for mobile */
 }
 
 .achievement-card {
   background: var(--white);
-  border-radius: var(--radius-xl);
-  padding: var(--space-8);
+  border-radius: var(--radius-lg); /* Adjusted for mobile */
+  padding: var(--space-6); /* Adjusted for mobile */
   box-shadow: var(--shadow);
   display: flex;
   align-items: center;
-  gap: var(--space-6);
+  gap: var(--space-4); /* Adjusted for mobile */
   transition: var(--transition);
   position: relative;
   overflow: hidden;
 }
 
 .achievement-card:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-lg);
+  transform: translateY(-2px); /* Adjusted for mobile */
+  box-shadow: var(--shadow-md); /* Adjusted for mobile */
 }
 
 .achievement-card.unlocked {
@@ -650,14 +680,14 @@ body {
 }
 
 .achievement-icon {
-  font-size: var(--font-size-3xl);
-  width: 60px;
-  height: 60px;
+  font-size: var(--font-size-2xl); /* Adjusted for mobile */
+  width: 50px; /* Adjusted for mobile */
+  height: 50px; /* Adjusted for mobile */
   display: flex;
   align-items: center;
   justify-content: center;
   background: var(--gray-100);
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-md); /* Adjusted for mobile */
 }
 
 .achievement-card.unlocked .achievement-icon {
@@ -669,21 +699,22 @@ body {
 }
 
 .achievement-content h3 {
-  font-size: var(--font-size-xl);
+  font-size: var(--font-size-lg); /* Adjusted for mobile */
   font-weight: 600;
   color: var(--gray-900);
-  margin-bottom: var(--space-2);
+  margin-bottom: var(--space-1); /* Adjusted for mobile */
 }
 
 .achievement-content p {
   color: var(--gray-600);
-  margin-bottom: var(--space-4);
+  font-size: var(--font-size-sm); /* Adjusted for mobile */
+  margin-bottom: var(--space-3); /* Adjusted for mobile */
 }
 
 .achievement-progress {
   display: flex;
   align-items: center;
-  gap: var(--space-3);
+  gap: var(--space-2); /* Adjusted for mobile */
 }
 
 .achievement-progress .progress-bar {
@@ -692,30 +723,30 @@ body {
 }
 
 .achievement-progress span {
-  font-size: var(--font-size-sm);
+  font-size: var(--font-size-xs); /* Adjusted for mobile */
   color: var(--gray-600);
   white-space: nowrap;
 }
 
 .achievement-status {
-  font-size: var(--font-size-2xl);
+  font-size: var(--font-size-xl); /* Adjusted for mobile */
 }
 
-/* Leaderboard Section */
+/* Leaderboard Section - Displays user rankings. */
 .leaderboard-container {
-  max-width: 800px;
+  max-width: 100%; /* Full width on mobile */
   margin: 0 auto;
 }
 
 .leaderboard-filters {
   display: flex;
   justify-content: center;
-  gap: var(--space-4);
-  margin-bottom: var(--space-8);
+  gap: var(--space-3); /* Adjusted for mobile */
+  margin-bottom: var(--space-6); /* Adjusted for mobile */
 }
 
 .filter-btn {
-  padding: var(--space-3) var(--space-6);
+  padding: var(--space-2) var(--space-4); /* Adjusted for mobile */
   border: 1px solid var(--gray-300);
   background: var(--white);
   color: var(--gray-600);
@@ -723,6 +754,9 @@ body {
   cursor: pointer;
   transition: var(--transition);
   font-weight: 500;
+  font-size: var(--font-size-sm); /* Adjusted for mobile */
+  flex: 1; /* Make buttons take equal width */
+  text-align: center; /* Center text */
 }
 
 .filter-btn.active,
@@ -734,7 +768,7 @@ body {
 
 .leaderboard-list {
   background: var(--white);
-  border-radius: var(--radius-xl);
+  border-radius: var(--radius-lg); /* Adjusted for mobile */
   overflow: hidden;
   box-shadow: var(--shadow);
 }
@@ -742,7 +776,7 @@ body {
 .leaderboard-item {
   display: flex;
   align-items: center;
-  padding: var(--space-6);
+  padding: var(--space-4); /* Adjusted for mobile */
   border-bottom: 1px solid var(--gray-200);
   transition: var(--transition);
 }
@@ -761,27 +795,27 @@ body {
 }
 
 .leaderboard-rank {
-  font-size: var(--font-size-xl);
+  font-size: var(--font-size-base); /* Adjusted for mobile */
   font-weight: 700;
   color: var(--gray-900);
-  width: 60px;
+  width: 40px; /* Adjusted for mobile */
   text-align: center;
 }
 
 .leaderboard-rank.top-3 {
-  font-size: var(--font-size-2xl);
+  font-size: var(--font-size-lg); /* Adjusted for mobile */
 }
 
 .leaderboard-avatar {
-  width: 48px;
-  height: 48px;
+  width: 40px; /* Adjusted for mobile */
+  height: 40px; /* Adjusted for mobile */
   border-radius: var(--radius-full);
   background: var(--primary-light);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: var(--font-size-xl);
-  margin-right: var(--space-4);
+  font-size: var(--font-size-base); /* Adjusted for mobile */
+  margin-right: var(--space-3); /* Adjusted for mobile */
 }
 
 .leaderboard-info {
@@ -789,14 +823,14 @@ body {
 }
 
 .leaderboard-name {
-  font-size: var(--font-size-lg);
+  font-size: var(--font-size-base); /* Adjusted for mobile */
   font-weight: 600;
   color: var(--gray-900);
   margin-bottom: var(--space-1);
 }
 
 .leaderboard-stats {
-  font-size: var(--font-size-sm);
+  font-size: var(--font-size-xs); /* Adjusted for mobile */
   color: var(--gray-600);
 }
 
@@ -805,77 +839,78 @@ body {
 }
 
 .leaderboard-saplings {
-  font-size: var(--font-size-xl);
+  font-size: var(--font-size-lg); /* Adjusted for mobile */
   font-weight: 700;
   color: var(--primary-dark);
 }
 
 .leaderboard-change {
-  font-size: var(--font-size-sm);
+  font-size: var(--font-size-xs); /* Adjusted for mobile */
   color: var(--gray-500);
 }
 
-/* Analytics Section */
+/* Analytics Section - Visualizes user activity over time. */
 .analytics-grid {
-  display: grid;
-  grid-template-columns: 2fr 1fr;
-  gap: var(--space-8);
+  display: flex; /* Changed to flex for mobile-first column layout */
+  flex-direction: column; /* Stack content vertically */
+  gap: var(--space-6); /* Adjusted for mobile */
 }
 
 .analytics-card {
   background: var(--white);
-  border-radius: var(--radius-xl);
-  padding: var(--space-8);
+  border-radius: var(--radius-lg); /* Adjusted for mobile */
+  padding: var(--space-6); /* Adjusted for mobile */
   box-shadow: var(--shadow);
 }
 
 .analytics-card h3 {
-  font-size: var(--font-size-xl);
+  font-size: var(--font-size-lg); /* Adjusted for mobile */
   font-weight: 600;
   color: var(--gray-900);
-  margin-bottom: var(--space-6);
+  margin-bottom: var(--space-4); /* Adjusted for mobile */
 }
 
 .impact-metrics {
   display: flex;
   flex-direction: column;
-  gap: var(--space-6);
+  gap: var(--space-4); /* Adjusted for mobile */
 }
 
 .impact-item {
   display: flex;
   align-items: center;
-  gap: var(--space-4);
+  gap: var(--space-3); /* Adjusted for mobile */
 }
 
 .impact-icon {
-  font-size: var(--font-size-2xl);
-  width: 48px;
-  height: 48px;
+  font-size: var(--font-size-xl); /* Adjusted for mobile */
+  width: 40px; /* Adjusted for mobile */
+  height: 40px; /* Adjusted for mobile */
   display: flex;
   align-items: center;
   justify-content: center;
   background: var(--secondary);
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-md); /* Adjusted for mobile */
 }
 
 .impact-value {
-  font-size: var(--font-size-xl);
+  font-size: var(--font-size-lg); /* Adjusted for mobile */
   font-weight: 700;
   color: var(--gray-900);
   display: block;
 }
 
 .impact-label {
-  font-size: var(--font-size-sm);
+  font-size: var(--font-size-xs); /* Adjusted for mobile */
   color: var(--gray-600);
 }
 
-/* Notifications */
+/* Notifications - System for transient messages to the user. */
 .notification-container {
   position: fixed;
-  top: 5rem;
-  right: var(--space-6);
+  top: 4.5rem; /* Adjusted for mobile navbar height */
+  left: var(--space-4); /* Adjusted for mobile */
+  right: var(--space-4); /* Adjusted for mobile */
   z-index: 1100;
   display: flex;
   flex-direction: column;
@@ -885,10 +920,10 @@ body {
 .notification {
   background: var(--white);
   border-radius: var(--radius-lg);
-  padding: var(--space-4) var(--space-6);
+  padding: var(--space-3) var(--space-4); /* Adjusted for mobile */
   box-shadow: var(--shadow-lg);
   border-left: 4px solid var(--primary);
-  max-width: 400px;
+  max-width: none; /* Full width on mobile */
   animation: slideIn 0.3s ease-out;
 }
 
@@ -906,16 +941,16 @@ body {
 
 @keyframes slideIn {
   from {
-    transform: translateX(100%);
+    transform: translateY(-100%); /* Adjusted for mobile, slide from top */
     opacity: 0;
   }
   to {
-    transform: translateX(0);
+    transform: translateY(0);
     opacity: 1;
   }
 }
 
-/* Modal */
+/* Modal Overlays - For pop-up content like achievement unlocks. */
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -939,10 +974,10 @@ body {
 
 .modal-content {
   background: var(--white);
-  border-radius: var(--radius-xl);
-  max-width: 500px;
+  border-radius: var(--radius-lg); /* Adjusted for mobile */
+  max-width: 90%; /* Adjusted for mobile */
   width: 90%;
-  max-height: 90vh;
+  max-height: 80vh; /* Adjusted for mobile */
   overflow-y: auto;
   transform: scale(0.9);
   transition: var(--transition);
@@ -956,12 +991,12 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: var(--space-6) var(--space-8);
+  padding: var(--space-4) var(--space-6); /* Adjusted for mobile */
   border-bottom: 1px solid var(--gray-200);
 }
 
 .modal-header h2 {
-  font-size: var(--font-size-2xl);
+  font-size: var(--font-size-xl); /* Adjusted for mobile */
   font-weight: 600;
   color: var(--gray-900);
 }
@@ -969,7 +1004,7 @@ body {
 .modal-close {
   background: none;
   border: none;
-  font-size: var(--font-size-2xl);
+  font-size: var(--font-size-xl); /* Adjusted for mobile */
   color: var(--gray-400);
   cursor: pointer;
   padding: var(--space-2);
@@ -983,7 +1018,7 @@ body {
 }
 
 .modal-body {
-  padding: var(--space-8);
+  padding: var(--space-6); /* Adjusted for mobile */
 }
 
 .achievement-celebration {
@@ -991,82 +1026,160 @@ body {
 }
 
 .achievement-icon-large {
-  font-size: 4rem;
-  margin-bottom: var(--space-6);
+  font-size: 3rem; /* Adjusted for mobile */
+  margin-bottom: var(--space-4); /* Adjusted for mobile */
 }
 
 .achievement-celebration h3 {
-  font-size: var(--font-size-2xl);
+  font-size: var(--font-size-xl); /* Adjusted for mobile */
   font-weight: 700;
   color: var(--gray-900);
-  margin-bottom: var(--space-4);
+  margin-bottom: var(--space-3); /* Adjusted for mobile */
 }
 
 .achievement-celebration p {
-  font-size: var(--font-size-lg);
+  font-size: var(--font-size-base); /* Adjusted for mobile */
   color: var(--gray-600);
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
-  .nav-menu {
-    position: fixed;
-    top: 4rem;
-    left: 0;
-    right: 0;
-    background: var(--white);
-    flex-direction: column;
-    padding: var(--space-6);
-    box-shadow: var(--shadow-lg);
-    transform: translateY(-100%);
-    transition: var(--transition);
-    gap: var(--space-4);
-  }
-  
-  .nav-menu.active {
-    transform: translateY(0);
-  }
-  
-  .nav-toggle {
-    display: flex;
-  }
-  
-  .hero {
-    grid-template-columns: 1fr;
-    text-align: center;
-    gap: var(--space-8);
-  }
-  
-  .hero-title {
-    font-size: var(--font-size-3xl);
-  }
-  
-  .stats-grid {
-    grid-template-columns: 1fr;
-  }
-  
-  .tracker-section {
-    grid-template-columns: 1fr;
-  }
-  
-  .analytics-grid {
-    grid-template-columns: 1fr;
-  }
-  
-  .achievements-grid {
-    grid-template-columns: 1fr;
-  }
-  
-  .section {
-    padding: var(--space-6) var(--space-4);
-  }
-  
-  .notification-container {
-    left: var(--space-4);
-    right: var(--space-4);
-  }
-  
-  .notification {
-    max-width: none;
-  }
+/* Donation Panel - Provides options for users to contribute. */
+.donation-card {
+  background: var(--white);
+  border-radius: var(--radius-xl);
+  padding: var(--space-8);
+  box-shadow: var(--shadow);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.donation-intro {
+  font-size: var(--font-size-lg);
+  color: var(--gray-600);
+  margin-bottom: var(--space-6);
+  text-align: center;
+}
+
+.donation-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.form-group label {
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  color: var(--gray-700);
+}
+
+/* Form Select Customization - Consider replacing data URI with Font Awesome icon for production */
+.form-select {
+  width: 100%;
+  padding: var(--space-3);
+  border: 1px solid var(--gray-300);
+  border-radius: var(--radius);
+  font-size: var(--font-size-base);
+  color: var(--gray-800);
+  background-color: var(--white);
+  appearance: none; /* Remove default select arrow */
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right var(--space-3) center;
+  background-size: 16px;
+}
+
+.form-select:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.2);
+}
+
+/* Events Section - Displays upcoming community events. */
+.events-grid {
+  display: grid;
+  grid-template-columns: 1fr; /* Force single column on mobile */
+  gap: var(--space-4); /* Adjusted for mobile */
+}
+
+.event-card {
+  background: var(--white);
+  border-radius: var(--radius-lg); /* Adjusted for mobile */
+  padding: var(--space-6); /* Adjusted for mobile */
+  box-shadow: var(--shadow);
+  transition: var(--transition);
+}
+
+.event-card:hover {
+  transform: translateY(-2px); /* Adjusted for mobile */
+  box-shadow: var(--shadow-md); /* Adjusted for mobile */
+}
+
+.event-card-image {
+  width: 100%;
+  height: 150px; /* Or a suitable height for mobile event cards */
+  object-fit: cover;
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0; /* Rounded top corners */
+  margin-bottom: var(--space-4);
+}
+
+.event-card-content {
+  padding: 0 var(--space-6) var(--space-6); /* Padded content below image */
+}
+
+.event-date-time {
+  font-size: var(--font-size-sm); /* Adjusted for mobile */
+  color: var(--gray-500);
+  margin-bottom: var(--space-2); /* Adjusted for mobile */
+}
+
+.event-date {
+  font-weight: 600;
+  color: var(--primary-dark);
+}
+
+.event-time {
+  margin-left: var(--space-2);
+}
+
+.event-title {
+  font-size: var(--font-size-lg); /* Adjusted for mobile */
+  font-weight: 600;
+  color: var(--gray-900);
+  margin-bottom: var(--space-2); /* Adjusted for mobile */
+}
+
+.event-description {
+  font-size: var(--font-size-sm); /* Adjusted for mobile */
+  color: var(--gray-600);
+  margin-bottom: var(--space-4); /* Adjusted for mobile */
+}
+
+.event-details {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: var(--font-size-xs); /* Adjusted for mobile */
+  color: var(--gray-500);
+}
+
+.event-location {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1); /* Adjusted for mobile */
+}
+
+.event-link {
+  color: var(--primary-dark);
+  text-decoration: none;
+  font-weight: 500;
+  transition: var(--transition);
+}
+
+.event-link:hover {
+  text-decoration: underline;
 }
